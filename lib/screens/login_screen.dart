@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:proyecto/providers/login_provider.dart';
 //import 'package:provider/provider.dart';
 //import 'auth_provider.dart';
 
 class LoginScreen extends StatelessWidget {
+  static const routeName = '/login';
   LoginScreen({super.key});
 
   final TextEditingController _emailController = TextEditingController();
@@ -38,21 +41,21 @@ class LoginScreen extends StatelessWidget {
               },
               child: const Text('¿Olvidó su contraseña?'),
             ),
-            /*Consumer<AuthProvider>(
+            Consumer<LoginProvider>(
               builder: (context, authProvider, child) {
                 return ElevatedButton(
                   onPressed: () async {
                     try {
-                      await authProvider.loginWithEmailAndPassword(
+                      await authProvider.login(
                         _emailController.text,
                         _passwordController.text,
                       );
                       // Redirige al usuario a la pantalla de perfil en lugar de la pantalla principal
-                      Navigator.pushReplacement(
+                      /*Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                             builder: (context) => ProfileScreen()),
-                      );
+                      );*/
                     } catch (e) {
                       // Manejo de errores de inicio de sesión
                       print(e);
@@ -61,28 +64,6 @@ class LoginScreen extends StatelessWidget {
                   child:const Text('Iniciar Sesión'),
                 );
               },
-            ),*/
-            const SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: () {
-                // Implementa la lógica para iniciar sesión con Google
-              },
-              child: const Text('Continuar con Google'),
-              style: ElevatedButton.styleFrom(
-                minimumSize: const Size(double.infinity, 45.0),
-                padding: const EdgeInsets.only(top: 10.0, bottom: 10.0)
-              ),
-            ),
-            const SizedBox(height: 8.0),
-            ElevatedButton(
-              onPressed: () {
-                // Implementa la lógica para iniciar sesión con Facebook
-              },
-              child: const Text('Continuar con Facebook'),
-              style: ElevatedButton.styleFrom(
-                minimumSize: const Size(double.infinity, 45.0),
-                padding: const EdgeInsets.only(top: 10.0, bottom: 10.0)
-              ),
             ),
             const SizedBox(height: 16.0),
             TextButton(
