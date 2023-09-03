@@ -19,13 +19,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController =TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
   final TextEditingController _ageController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   String? _selectedFaculty;
   String? _selectedGender;
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
+  String? _successMessage;
+  String? _errorMessage;
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +85,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             Padding(
               padding: const EdgeInsets.only(top: 5.0, right: 30.0, left: 30.0),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   TextFormField(
                     controller: _nameController,
@@ -179,46 +182,69 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         _obscureConfirmPassword, // Aplicar la visibilidad de la contraseña
                   ),
                   const SizedBox(height: 16.0),
-                  ElevatedButton(
-                    onPressed: () async {
-                      try {
-                        // Verifica que _selectedFaculty no sea nulo antes de continuar
-                        if (_selectedFaculty != null) {
-                          //Llama a la función para registrar al usuario en Firestore a través de PersonProvider
-                          await Provider.of<PersonProvider>(context,
-                                  listen: false)
-                              .addPerson(
-                            nombre: _nameController.text,
-                            facultad: _selectedFaculty!,
-                            correo: _emailController.text,
-                            clave: _passwordController.text,
-                            edad: int.tryParse(_ageController.text),
-                            descripcion: _descriptionController.text,
-                            genero: _selectedGender!,                           
-                          );
-                          //Firebase Authentication
-                          final authResult = await FirebaseAuth.instance
-                              .createUserWithEmailAndPassword(
-                            email: _emailController.text,
-                            password: _passwordController.text,
-                          );
-                          // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
-                        } else {
-                          print(
-                              'Por favor, selecciona una facultad antes de continuar.');
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        try {
+                          // Verifica que _selectedFaculty no sea nulo antes de continuar
+                          if (_selectedFaculty != null) {
+                            //Llama a la función para registrar al usuario en Firestore a través de PersonProvider
+                            await Provider.of<PersonProvider>(context,
+                                    listen: false)
+                                .addPerson(
+                              nombre: _nameController.text,
+                              facultad: _selectedFaculty!,
+                              correo: _emailController.text,
+                              clave: _passwordController.text,
+                              edad: int.tryParse(_ageController.text),
+                              descripcion: _descriptionController.text,
+                              genero: _selectedGender!,
+                            );
+                            //Firebase Authentication
+                            final authResult = await FirebaseAuth.instance
+                                .createUserWithEmailAndPassword(
+                              email: _emailController.text,
+                              password: _passwordController.text,
+                            );
+                  
+                            // Registro exitoso
+                            setState(() {
+                              _successMessage = 'Registro exitoso. ¡Bienvenido!';
+                              _errorMessage =null;
+                            });
+                  
+                            // Limpia los campos
+                            _nameController.clear();
+                            _emailController.clear();
+                            _passwordController.clear();
+                            _confirmPasswordController.clear();
+                            _ageController.clear();
+                            _descriptionController.clear();
+                            _selectedFaculty = null;
+                            _selectedGender = null;
+                            
+                            //Navigator.pushNamed(context, LoginScreen.routeName);
+                          } else {
+                            print(
+                                'Por favor, selecciona una facultad antes de continuar.');
+                          }
+                        } catch (e) {
+                          // Registro fallido
+                          setState(() {
+                            _errorMessage = 'Error al registrar: $e';
+                            _successMessage =null;
+                          });
                         }
-                      } catch (e) {
-                        print(
-                            'Error al registrar al usuario en Firestore o en Firebase Authentication: $e');
-                      }
-                    },
-                    child: const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 12.0),
-                      child: Text(
-                        'Registrarse',
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.bold,
+                      },
+                      child: const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 12.0),
+                        child: Text(
+                          'Registrarse',
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),
@@ -236,6 +262,30 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                   ),
                   const SizedBox(height: 16.0),
+                  if (_successMessage != null)
+                    Padding(
+                      padding: EdgeInsets.all(16.0),
+                      child: Text(
+                        _successMessage!,
+                        style: const TextStyle(
+                          color: Colors.green,
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  if (_errorMessage != null)
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Text(
+                        _errorMessage!,
+                        style: const TextStyle(
+                          color: Colors.red, // Color para el mensaje de error
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
                 ],
               ),
             ),
