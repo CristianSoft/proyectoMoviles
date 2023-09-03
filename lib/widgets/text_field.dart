@@ -17,14 +17,6 @@ class MyTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       decoration: InputDecoration(
-        enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(50),
-            borderSide: BorderSide(color: Colors.pink.shade300)),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(50),
-          borderSide: BorderSide(color: Colors.green),
-        ),
-        fillColor: Colors.white,
         filled: true,
         hintText: hintText,
         hintStyle: const TextStyle(color: Colors.grey),

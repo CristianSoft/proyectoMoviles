@@ -54,7 +54,7 @@ class _ChatScreenState extends State<ChatScreen> {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Expanded(
+                const Expanded(
                     child: CircleAvatar(
                   backgroundImage: AssetImage('assets/profile.jpg'),
                 )),
@@ -63,7 +63,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   child: Expanded(
                     child: Text(
                       widget.receiverUserEmail,
-                      style: TextStyle(color: Colors.white, fontSize: 20),
+                      style: const TextStyle(color: Colors.white, fontSize: 20),
                     ),
                   ),
                 )
@@ -107,7 +107,7 @@ class _ChatScreenState extends State<ChatScreen> {
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Text('loading... ');
+          return const Text('loading... ');
         }
 
         return ListView(
@@ -120,7 +120,6 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   //build Message item
-
   Widget _buildMessageItem(DocumentSnapshot document) {
     Map<String, dynamic> data = document.data() as Map<String, dynamic>;
 
@@ -130,7 +129,7 @@ class _ChatScreenState extends State<ChatScreen> {
         : Alignment.centerLeft;
 
     var color = (data['senderId'] == _firebaseAuth.currentUser!.uid)
-        ? Color(0XFFf91659)
+        ? const Color(0XFFf91659)
         : Colors.grey;
 
     return Container(
@@ -174,7 +173,6 @@ class _ChatScreenState extends State<ChatScreen> {
                 child: IconButton(
                   onPressed: () async {
                     final ImagePicker picker = ImagePicker();
-
                     // Pick an image
                     final XFile? image = await picker.pickImage(
                         source: ImageSource.camera, imageQuality: 70);
@@ -191,9 +189,10 @@ class _ChatScreenState extends State<ChatScreen> {
                     }
                   },
                   icon:
-                      const Icon(Icons.camera_alt_rounded, color: Colors.pink),
+                      const Icon(Icons.camera_alt_rounded, color: Color(0XFFf91659)),
                 ),
-              )),
+              )
+            ),
 
           //texfield
           Flexible(
@@ -209,9 +208,9 @@ class _ChatScreenState extends State<ChatScreen> {
             flex: 1,
             child: IconButton(
                 onPressed: sendMessage,
-                icon: Icon(
+                icon: const Icon(
                   Icons.send,
-                  color: Colors.pink.shade200,
+                  color: Color(0XFFf91659),
                 )),
           )
         ],

@@ -8,6 +8,8 @@ class PersonProvider extends ChangeNotifier {
   final CollectionReference _personCollection =
       FirebaseFirestore.instance.collection('persona');
 
+  var setOptions = SetOptions(merge: true);
+
   List<Person> _listaUsuarios = [];
   UnmodifiableListView<Person> get usuariosGetter =>
       UnmodifiableListView(_listaUsuarios);
@@ -34,7 +36,7 @@ class PersonProvider extends ChangeNotifier {
         'descripcion': descripcion,
         'genero': genero,
         'imagen': imagen,
-      });
+      }, setOptions);
       notifyListeners();
     } catch (e) {
       print('Error al agregar la persona: $e');

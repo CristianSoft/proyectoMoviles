@@ -8,7 +8,7 @@ import 'package:proyecto/providers/person_provider.dart';
 import 'package:proyecto/providers/signup_provider.dart';
 import 'package:proyecto/screens/login_screen.dart';
 import 'package:provider/provider.dart';
-import 'package:proyecto/screens/matches_screen.dart';
+import 'package:proyecto/screens/contacts_screen.dart';
 import 'package:proyecto/screens/password_reset_screen.dart';
 import 'package:proyecto/screens/signup_screen.dart';
 import 'firebase_options.dart';

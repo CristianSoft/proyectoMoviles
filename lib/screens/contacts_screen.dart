@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:proyecto/providers/login_provider.dart';
 import 'package:proyecto/screens/chat_screen.dart';
+import 'package:proyecto/screens/login_screen.dart';
 
 class ContactsScreen extends StatefulWidget {
   static const routeName = '/contacts';
@@ -21,6 +22,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
     //get auth sevrice
     final authService = Provider.of<LoginProvider>(context, listen: false);
     authService.logout();
+    Navigator.pushNamed(context, LoginScreen.routeName);
   }
 
   @override
@@ -28,12 +30,13 @@ class _ContactsScreenState extends State<ContactsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Matches',
+          'Bandeja de Entrada',
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
         backgroundColor: Colors.blue,
         actions: [
-          IconButton(onPressed: signOut, icon: const Icon(Icons.logout))
+          IconButton(onPressed: signOut, icon: const Icon(Icons.logout)),
+          
         ],
       ),
       body: _buildUserList(),
