@@ -11,18 +11,21 @@ class PersonProvider extends ChangeNotifier {
   List<Person> _listaUsuarios = [];
   UnmodifiableListView<Person> get usuariosGetter =>
       UnmodifiableListView(_listaUsuarios);
+
   Future<void> addPerson({
     required String nombre,
     required String facultad,
     required String correo,
     required String clave,
+    required String id,
     int? edad,
     String? descripcion,
     String? genero,
     String? imagen,
   }) async {
     try {
-      await _personCollection.add({
+      await _personCollection.doc(id).set({
+        'uid': id,
         'nombre': nombre,
         'facultad': facultad,
         'correo': correo,
@@ -45,10 +48,11 @@ class PersonProvider extends ChangeNotifier {
 
     _listaUsuarios = querySnapShot.docs.map((doc) {
       final data = doc.data();
-      if (data['imagen']==null) {
-        data['imagen']="";
+      if (data['imagen'] == null) {
+        data['imagen'] = "";
       }
       return Person(
+          id: data['uid'],
           email: data['correo'],
           faculty: data['facultad'],
           name: data['nombre'],

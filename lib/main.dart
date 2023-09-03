@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:proyecto/providers/chat_provider.dart';
 import 'package:proyecto/providers/event_provider.dart';
 import 'package:proyecto/providers/login_provider.dart';
 import 'package:proyecto/providers/password_reset_provider.dart';
@@ -7,6 +8,7 @@ import 'package:proyecto/providers/person_provider.dart';
 import 'package:proyecto/providers/signup_provider.dart';
 import 'package:proyecto/screens/login_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:proyecto/screens/matches_screen.dart';
 import 'package:proyecto/screens/password_reset_screen.dart';
 import 'package:proyecto/screens/signup_screen.dart';
 import 'firebase_options.dart';
@@ -31,16 +33,18 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => SignUpProvider()),
         ChangeNotifierProvider(create: (context) => PersonProvider()),
         ChangeNotifierProvider(create: (context) => PasswordResetProvider()),
+        ChangeNotifierProvider(create: (context) => ChatProvider())
       ],
       child: MaterialApp(
         title: 'PoliMatch',
-           //home: new MainWidget(),
-           initialRoute: LoginScreen.routeName,
-           routes: {
-            LoginScreen.routeName: (context) => LoginScreen(),
-            SignUpScreen.routeName: (context) => const SignUpScreen(), 
-            PasswordResetScreen.routeName:(context) => PasswordResetScreen(),
-           },
+        //home: new MainWidget(),
+        initialRoute: LoginScreen.routeName,
+        routes: {
+          LoginScreen.routeName: (context) => LoginScreen(),
+          SignUpScreen.routeName: (context) => const SignUpScreen(),
+          PasswordResetScreen.routeName: (context) => PasswordResetScreen(),
+          ContactsScreen.routeName: (context) => const ContactsScreen()
+        },
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFFF91659)),
           primaryColor: const Color(0xFFF91659),

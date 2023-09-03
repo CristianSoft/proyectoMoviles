@@ -189,10 +189,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         try {
                           // Verifica que _selectedFaculty no sea nulo antes de continuar
                           if (_selectedFaculty != null) {
+                            //Firebase Authentication
+                            UserCredential authResult = await FirebaseAuth
+                                .instance
+                                .createUserWithEmailAndPassword(
+                              email: _emailController.text,
+                              password: _passwordController.text,
+                            );
+
                             //Llama a la función para registrar al usuario en Firestore a través de PersonProvider
                             await Provider.of<PersonProvider>(context,
                                     listen: false)
                                 .addPerson(
+                              id: authResult.user!.uid,
                               nombre: _nameController.text,
                               facultad: _selectedFaculty!,
                               correo: _emailController.text,
@@ -201,19 +210,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               descripcion: _descriptionController.text,
                               genero: _selectedGender!,
                             );
-                            //Firebase Authentication
-                            final authResult = await FirebaseAuth.instance
-                                .createUserWithEmailAndPassword(
-                              email: _emailController.text,
-                              password: _passwordController.text,
-                            );
-                  
+
                             // Registro exitoso
                             setState(() {
-                              _successMessage = 'Registro exitoso. ¡Bienvenido!';
-                              _errorMessage =null;
+                              _successMessage =
+                                  'Registro exitoso. ¡Bienvenido!';
+                              _errorMessage = null;
                             });
-                  
+
                             // Limpia los campos
                             _nameController.clear();
                             _emailController.clear();
@@ -223,7 +227,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             _descriptionController.clear();
                             _selectedFaculty = null;
                             _selectedGender = null;
-                            
+
                             //Navigator.pushNamed(context, LoginScreen.routeName);
                           } else {
                             print(
@@ -233,7 +237,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           // Registro fallido
                           setState(() {
                             _errorMessage = 'Error al registrar: $e';
-                            _successMessage =null;
+                            _successMessage = null;
                           });
                         }
                       },

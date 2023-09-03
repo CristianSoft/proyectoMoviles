@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:proyecto/providers/login_provider.dart';
+import 'package:proyecto/screens/matches_screen.dart';
 import 'package:proyecto/screens/password_reset_screen.dart';
 import 'package:proyecto/screens/signup_screen.dart';
 
@@ -47,8 +48,7 @@ class LoginScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-                    )
-                  )
+                    ))
               ],
             ),
             const Padding(
@@ -62,7 +62,7 @@ class LoginScreen extends StatelessWidget {
                       fontSize: 25.0,
                       color: Color(0xFFF91659),
                       fontWeight: FontWeight.bold,
-                    ),  
+                    ),
                   )
                 ],
               ),
@@ -74,8 +74,8 @@ class LoginScreen extends StatelessWidget {
                 children: [
                   TextField(
                     controller: _emailController,
-                    decoration:
-                        const InputDecoration(labelText: 'Correo institucional'),
+                    decoration: const InputDecoration(
+                        labelText: 'Correo institucional'),
                   ),
                   const SizedBox(height: 16.0),
                   TextField(
@@ -86,11 +86,14 @@ class LoginScreen extends StatelessWidget {
                   const SizedBox(height: 8.0),
                   TextButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, PasswordResetScreen.routeName);
+                      Navigator.pushNamed(
+                          context, PasswordResetScreen.routeName);
                     },
                     child: const Text(
                       '¿Olvidó su contraseña?',
-                      style: TextStyle(fontSize: 16.0,),
+                      style: TextStyle(
+                        fontSize: 16.0,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 8.0),
@@ -106,7 +109,8 @@ class LoginScreen extends StatelessWidget {
                                 _passwordController.text,
                               );
                               // Redirige al usuario a la pantalla de perfil en lugar de la pantalla principal
-
+                              Navigator.pushNamed(
+                                  context, ContactsScreen.routeName);
                             } catch (e) {
                               // Manejo de errores de inicio de sesión
                               print(e);
@@ -136,8 +140,10 @@ class LoginScreen extends StatelessWidget {
                         },
                         child: const Text(
                           '¿No tiene cuenta? Registrarse gratis',
-                          style: TextStyle(fontSize: 16.0,),
+                          style: TextStyle(
+                            fontSize: 16.0,
                           ),
+                        ),
                       ),
                     ],
                   ),
