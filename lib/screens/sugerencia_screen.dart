@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sugerencias/Models/usuario.dart';
-import 'package:sugerencias/provider/usuario_provider.dart';
-import 'package:sugerencias/widgets/caja_usuario.dart';
+import 'package:proyecto/providers/usuario_provider.dart';
+import 'package:proyecto/widgets/caja_usuario.dart';
 
 class SugerenciasWidget extends StatefulWidget {
   const SugerenciasWidget({super.key});
