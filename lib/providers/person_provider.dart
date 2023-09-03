@@ -31,25 +31,25 @@ class PersonProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> _initEventsList() async {
+  Future<void> initPersonList() async {
     final querySnapShot =
-        await FirebaseFirestore.instance.collection('events').get();
+        await FirebaseFirestore.instance.collection('persona').get();
 
     _listaUsuarios = querySnapShot.docs.map((doc) {
       final data = doc.data();
-      print('////////////////// HOLA ////////////////');
+      if (data['imagen']==null) {
+        data['imagen']="";
+      }
       return Person(
           email: data['correo'],
           faculty: data['facultad'],
           name: data['nombre'],
           password: data['clave'],
-          descripcion: "",
-          edad: 0,
-          genero: "",
-          imagen: "");
+          descripcion: data['descripcion'],
+          edad: data['edad'],
+          genero: data['genero'],
+          imagen: data['imagen']);
     }).toList();
-
-    print(_listaUsuarios);
     notifyListeners();
   }
 }

@@ -20,15 +20,15 @@ class _EventScreenState extends State<EventScreen> {
       ),
       body: Column(
         children: <Widget>[
-          const Row(
+           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Icon(Icons.pets),
+                padding: const EdgeInsets.all(8.0),
+                child: Image.asset('lib/images/LogoPolimatchSmall.png'),
               ),
-              Padding(
+              const Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Text(
                   'Próximos Eventos',
