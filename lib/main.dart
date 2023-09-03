@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:proyecto/providers/login_provider.dart';
+import 'package:proyecto/providers/person_provider.dart';
+import 'package:proyecto/providers/signup_provider.dart';
 import 'package:proyecto/screens/login_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:proyecto/screens/signup_screen.dart';
@@ -23,6 +25,8 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => LoginProvider()),
+        ChangeNotifierProvider(create: (context) => PersonProvider()),
+        ChangeNotifierProvider(create: (context) => SignUpProvider(),)
       ],
       child: MaterialApp(
         title: 'Pokedex',
@@ -30,7 +34,7 @@ class MyApp extends StatelessWidget {
            initialRoute: LoginScreen.routeName,
            routes: {
             LoginScreen.routeName: (context) => LoginScreen(),
-            SignUpScreen.routeName: (context) => SignUpScreen(), 
+            SignUpScreen.routeName: (context) => SignUpScreen(),
            },
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFFF91659)),
