@@ -85,7 +85,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ),
             DropdownButtonFormField(
               value: _selectedFaculty, // Asigna el valor seleccionado
-              items: ['FIS', 'FIM', 'FIQA', 'FIEE']
+              items: ['FIS', 'FIM', 'FIQA', 'FIEE', 'FCA']
                   .map((faculty) => DropdownMenuItem(
                         value: faculty,
                         child: Text(faculty),

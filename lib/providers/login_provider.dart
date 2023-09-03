@@ -34,7 +34,7 @@ class LoginProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Función para validar el correo electrónico con dominio @epn.edu.ec
+  //Validar el correo electrónico con dominio @epn.edu.ec
   bool isValidEpnEmail(String email) {
     final RegExp regex = RegExp(r'^[\w-]+(\.[\w-]+)*@epn\.edu\.ec$');
     return regex.hasMatch(email);
