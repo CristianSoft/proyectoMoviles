@@ -16,6 +16,10 @@ class PersonProvider extends ChangeNotifier {
     required String facultad,
     required String correo,
     required String clave,
+    int? edad,
+    String? descripcion,
+    String? genero,
+    String? imagen,
   }) async {
     try {
       await _personCollection.add({
@@ -23,6 +27,10 @@ class PersonProvider extends ChangeNotifier {
         'facultad': facultad,
         'correo': correo,
         'clave': clave,
+        'edad': edad,
+        'descripcion': descripcion,
+        'genero': genero,
+        'imagen': imagen,
       });
       notifyListeners();
     } catch (e) {
