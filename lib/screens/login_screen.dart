@@ -24,9 +24,9 @@ class LoginScreen extends StatelessWidget {
                     width: double.infinity,
                     color: const Color(0xFFF91659),
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 30),
+                      padding: const EdgeInsets.only(top: 20),
                       child: Padding(
-                        padding: const EdgeInsets.only(top: 25.0, bottom: 15.0),
+                        padding: const EdgeInsets.only(top: 25.0, bottom: 10.0),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
@@ -50,8 +50,24 @@ class LoginScreen extends StatelessWidget {
                   )
               ],
             ),
+            const Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Inicio de Sesión',
+                    style: TextStyle(
+                      fontSize: 25.0,
+                      color: Color(0xFFF91659),
+                      fontWeight: FontWeight.bold,
+                    ),  
+                  )
+                ],
+              ),
+            ),
             Padding(
-              padding: const EdgeInsets.only(top: 50.0, right: 25.0, left: 25.0),
+              padding: const EdgeInsets.only(top: 8.0, right: 25.0, left: 25.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
@@ -110,14 +126,19 @@ class LoginScreen extends StatelessWidget {
                     },
                   ),
                   const SizedBox(height: 16.0),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, SignUpScreen.routeName);
-                    },
-                    child: const Text(
-                      '¿No tiene cuenta? Registrarse gratis',
-                      style: TextStyle(fontSize: 16.0,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, SignUpScreen.routeName);
+                        },
+                        child: const Text(
+                          '¿No tiene cuenta? Registrarse gratis',
+                          style: TextStyle(fontSize: 16.0,),
+                          ),
                       ),
+                    ],
                   ),
                 ],
               ),
