@@ -108,7 +108,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     await Provider.of<PersonProvider>(context, listen: false)
                         .addPerson(
                       nombre: _nameController.text,
-                      facultad: _selectedFaculty,
+                      facultad: _selectedFaculty!,
                       correo: _emailController.text,
                       clave: _passwordController.text, // Utiliza la contraseña ingresada desde el formulario
                     );
