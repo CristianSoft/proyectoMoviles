@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:proyecto/providers/login_provider.dart';
 import 'package:proyecto/screens/login_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:proyecto/screens/signup_screen.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -28,7 +29,8 @@ class MyApp extends StatelessWidget {
            //home: new MainWidget(),
            initialRoute: LoginScreen.routeName,
            routes: {
-            LoginScreen.routeName:(context) => LoginScreen(),
+            LoginScreen.routeName: (context) => LoginScreen(),
+            SignUpScreen.routeName: (context) => SignUpScreen(), 
            },
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFFF91659)),
@@ -36,7 +38,7 @@ class MyApp extends StatelessWidget {
           elevatedButtonTheme: ElevatedButtonThemeData(
             style: ElevatedButton.styleFrom(
               foregroundColor: const Color(0xFFFFFFFF),
-              backgroundColor:
+              backgroundColor: const
                   Color(0xFFF91659), // Color del texto del botón (blanco)
             ),
           ),
