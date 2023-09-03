@@ -102,7 +102,10 @@ class LoginScreen extends StatelessWidget {
                             padding: EdgeInsets.symmetric(vertical: 12.0),
                             child: Text(
                               'Iniciar Sesión',
-                              style: TextStyle(fontSize: 16.0,),
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ),
@@ -116,9 +119,7 @@ class LoginScreen extends StatelessWidget {
                     },
                     child: const Text(
                       '¿No tiene cuenta? Registrarse gratis',
-                      style: TextStyle(
-                                fontSize: 16.0,
-                              ),
+                      style: TextStyle(fontSize: 16.0,),
                       ),
                   ),
                 ],
