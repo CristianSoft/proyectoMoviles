@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sugerencias/Models/usuario.dart';
+import 'package:proyecto/dtos/usuario.dart';
 
 class CajaWidget extends StatefulWidget {
   final Usuario usuario;
