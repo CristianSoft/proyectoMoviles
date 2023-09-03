@@ -3,7 +3,7 @@ class Person {
   final String faculty;
   final String email;
   final String password;
-    int? edad;
+  int? edad;
   String? descripcion;
   String? genero;
   String? imagen;
