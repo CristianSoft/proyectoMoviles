@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:proyecto/providers/login_provider.dart';
+import 'package:proyecto/screens/password_reset_screen.dart';
 import 'package:proyecto/screens/signup_screen.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -82,17 +83,17 @@ class LoginScreen extends StatelessWidget {
                     decoration: const InputDecoration(labelText: 'Contraseña'),
                     obscureText: true,
                   ),
-                  const SizedBox(height: 16.0),
+                  const SizedBox(height: 8.0),
                   TextButton(
                     onPressed: () {
-                      //Navigator.pushNamed(context, LoginFailedScreen.routeName);
+                      Navigator.pushNamed(context, PasswordResetScreen.routeName);
                     },
                     child: const Text(
                       '¿Olvidó su contraseña?',
                       style: TextStyle(fontSize: 16.0,),
                     ),
                   ),
-                  const SizedBox(height: 16.0),
+                  const SizedBox(height: 8.0),
                   Consumer<LoginProvider>(
                     builder: (context, authProvider, child) {
                       return SizedBox(
@@ -125,7 +126,7 @@ class LoginScreen extends StatelessWidget {
                       );
                     },
                   ),
-                  const SizedBox(height: 16.0),
+                  const SizedBox(height: 8.0),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
