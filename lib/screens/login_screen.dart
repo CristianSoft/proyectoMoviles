@@ -88,11 +88,7 @@ class LoginScreen extends StatelessWidget {
                                 _passwordController.text,
                               );
                               // Redirige al usuario a la pantalla de perfil en lugar de la pantalla principal
-                              /*Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ProfileScreen()),
-                                          );*/
+
                             } catch (e) {
                               // Manejo de errores de inicio de sesión
                               print(e);
@@ -116,6 +112,7 @@ class LoginScreen extends StatelessWidget {
                   TextButton(
                     onPressed: () {
                       // Implementa la navegación a la pantalla de registro
+                      
                     },
                     child: const Text(
                       '¿No tiene cuenta? Registrarse gratis',
