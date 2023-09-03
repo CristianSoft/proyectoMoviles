@@ -19,7 +19,8 @@ class PasswordResetProvider extends ChangeNotifier {
 
   //Validación de correo electrónico
   bool validateEmail(String email) {
-    final emailRegExp = RegExp(r'^[\w-]+(\.[\w-]+)*@epn\.edu\.ec$');
+   // final emailRegExp = RegExp(r'^[\w-]+(\.[\w-]+)*@epn\.edu\.ec$');
+    final emailRegExp = RegExp(r'.*');
     return emailRegExp.hasMatch(email);
   }
 }
