@@ -10,14 +10,11 @@ class EventList extends StatefulWidget {
 }
 
 class _EventListState extends State<EventList> {
+
   @override
   Widget build(BuildContext context) {
 
-    final eventsDataProvider = Provider.of<EventProvider>(context, listen: false);
-
-    eventsDataProvider.checkEvents();
-
-    final eventsData = eventsDataProvider.events;
+    final eventsData = Provider.of<EventProvider>(context, listen: false).events;
 
     return SizedBox(
       width: 300,
