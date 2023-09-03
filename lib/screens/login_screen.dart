@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:proyecto/providers/login_provider.dart';
+import 'package:proyecto/screens/signup_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   static const routeName = '/login';
@@ -68,7 +69,7 @@ class LoginScreen extends StatelessWidget {
                   const SizedBox(height: 16.0),
                   TextButton(
                     onPressed: () {
-                      // Implementa la lógica para restablecer la contraseña
+                      //Navigator.pushNamed(context, LoginFailedScreen.routeName);
                     },
                     child: const Text(
                       '¿Olvidó su contraseña?',
@@ -111,8 +112,7 @@ class LoginScreen extends StatelessWidget {
                   const SizedBox(height: 16.0),
                   TextButton(
                     onPressed: () {
-                      // Implementa la navegación a la pantalla de registro
-                      
+                      Navigator.pushNamed(context, SignUpScreen.routeName);
                     },
                     child: const Text(
                       '¿No tiene cuenta? Registrarse gratis',
