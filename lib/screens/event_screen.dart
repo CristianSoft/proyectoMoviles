@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:proyecto/widgets/event_list.dart';
+import 'package:proyecto/providers/event_provider.dart';
+import 'package:provider/provider.dart';
 
 class EventScreen extends StatefulWidget {
   static const routeName = '/event';
@@ -16,9 +18,9 @@ class _EventScreenState extends State<EventScreen> {
       appBar: AppBar(
         title: const Text(''),
       ),
-      body: const Column(
+      body: Column(
         children: <Widget>[
-          Row(
+          const Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
@@ -39,10 +41,10 @@ class _EventScreenState extends State<EventScreen> {
               )
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
-          Row(
+          const Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Flexible(
@@ -72,10 +74,22 @@ class _EventScreenState extends State<EventScreen> {
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
-          EventList()
+          FutureBuilder(
+            future: Provider.of<EventProvider>(context, listen: false)
+                .checkEvents(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return const EventList();
+              } else {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            },
+          ),
         ],
       ),
     );

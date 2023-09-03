@@ -13,6 +13,7 @@ class EventProvider extends ChangeNotifier{
   Future<bool> checkEvents() async {
     if(_events.isEmpty){
       await _initEventsList();
+      print(_events);
       return true;
     }
     return false;
@@ -29,6 +30,8 @@ class EventProvider extends ChangeNotifier{
         imageUrl: data['imageUrl'], 
         date: data['date']);
     }).toList();
+
+    print(_events);
     notifyListeners();
 
   }
