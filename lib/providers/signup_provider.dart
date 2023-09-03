@@ -1,7 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:proyecto/dtos/person_model.dart';
 
-class SignUpProvider {
+class SignUpProvider extends ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<void> signUp(Person person) async {
