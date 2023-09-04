@@ -15,10 +15,12 @@ import 'package:proyecto/widgets/text_field.dart';
 class ChatScreen extends StatefulWidget {
   final String receiverUserEmail;
   final String receiverUserId;
+  final String receiverUserName;
   const ChatScreen(
       {super.key,
       required this.receiverUserEmail,
-      required this.receiverUserId});
+      required this.receiverUserId,
+      required this.receiverUserName});
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
@@ -52,21 +54,18 @@ class _ChatScreenState extends State<ChatScreen> {
           child: Padding(
             padding: const EdgeInsets.all(3.0),
             child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Expanded(
-                    child: CircleAvatar(
-                  backgroundImage: AssetImage('assets/profile.jpg'),
-                )),
                 Padding(
-                  padding: const EdgeInsets.only(left: 8.0),
-                  child: Expanded(
-                    child: Text(
-                      widget.receiverUserEmail,
-                      style: const TextStyle(color: Colors.white, fontSize: 20),
-                    ),
+                  padding: const EdgeInsets.only(right: 20),
+                  child: CircleAvatar(
+                    backgroundImage: AssetImage('assets/profile.jpg'),
                   ),
-                )
+                ),
+                Text(
+                  widget.receiverUserName,
+                  style: const TextStyle(color: Colors.white, fontSize: 20),
+                ),
               ],
             ),
           ),
@@ -188,11 +187,10 @@ class _ChatScreenState extends State<ChatScreen> {
                       setState(() => _isUploading = false);
                     }
                   },
-                  icon:
-                      const Icon(Icons.camera_alt_rounded, color: Color(0XFFf91659)),
+                  icon: const Icon(Icons.camera_alt_rounded,
+                      color: Color(0XFFf91659)),
                 ),
-              )
-            ),
+              )),
 
           //texfield
           Flexible(

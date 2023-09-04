@@ -36,7 +36,6 @@ class _ContactsScreenState extends State<ContactsScreen> {
         backgroundColor: Colors.blue,
         actions: [
           IconButton(onPressed: signOut, icon: const Icon(Icons.logout)),
-          
         ],
       ),
       body: _buildUserList(),
@@ -67,7 +66,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
     //display all users except the current
     if (_auth.currentUser!.email != data['correo']) {
       return ListTile(
-        title: Text(data['correo']),
+        title: Text(data['nombre']),
         onTap: () {
           //ir al chat seleccionado
           Navigator.push(
@@ -76,6 +75,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
               builder: (context) => ChatScreen(
                 receiverUserEmail: data['correo'],
                 receiverUserId: data['uid'],
+                receiverUserName: data['nombre'],
               ),
             ),
           );
