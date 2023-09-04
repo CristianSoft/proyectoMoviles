@@ -6,12 +6,20 @@ import 'package:proyecto/screens/password_reset_screen.dart';
 import 'package:proyecto/screens/signup_screen.dart';
 import 'package:proyecto/widgets/interfaz_inicio.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   static const routeName = '/login';
   LoginScreen({super.key});
 
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
+
   final TextEditingController _passwordController = TextEditingController();
+
+  bool _obscurePassword = true;
 
   @override
   Widget build(BuildContext context) {
@@ -43,22 +51,36 @@ class LoginScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  TextField(
+                  //Campos de ingreso de información
+                  TextFormField(
                     controller: _emailController,
                     decoration: const InputDecoration(
-                        labelText: 'Correo institucional'),
+                        labelText: 'Correo institucional*'),
                   ),
                   const SizedBox(height: 16.0),
-                  TextField(
+                  TextFormField(
                     controller: _passwordController,
-                    decoration: const InputDecoration(labelText: 'Contraseña'),
-                    obscureText: true,
+                    decoration: InputDecoration(
+                      labelText: 'Contraseña*',
+                      suffixIcon: IconButton(
+                        icon: Icon(_obscurePassword
+                            ? Icons.visibility_off
+                            : Icons.visibility),
+                        onPressed: () {
+                          //Cambiar el estado de la visibilidad de la contraseña
+                          setState(() {
+                            _obscurePassword = !_obscurePassword;
+                          });
+                        },
+                      ),
+                    ),
+                    obscureText:_obscurePassword,
                   ),
                   const SizedBox(height: 8.0),
+                  //Olvido su contraseña
                   TextButton(
                     onPressed: () {
-                      Navigator.pushNamed(
-                          context, PasswordResetScreen.routeName);
+                      Navigator.pushNamed(context, PasswordResetScreen.routeName);
                     },
                     child: const Text(
                       '¿Olvidó su contraseña?',
@@ -68,6 +90,7 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 8.0),
+                  //Iniciar Sesión
                   Consumer<LoginProvider>(
                     builder: (context, authProvider, child) {
                       return SizedBox(
@@ -79,9 +102,8 @@ class LoginScreen extends StatelessWidget {
                                 _emailController.text,
                                 _passwordController.text,
                               );
-                              // Redirige al usuario a la pantalla de perfil en lugar de la pantalla principal
-                              Navigator.pushNamed(
-                                  context, ContactsScreen.routeName);
+                              //CAMBIAR LA RUTA A LA QUE SE DIRIGE
+                              Navigator.pushNamed(context, ContactsScreen.routeName);
                             } catch (e) {
                               // Manejo de errores de inicio de sesión
                               print(e);
@@ -102,6 +124,7 @@ class LoginScreen extends StatelessWidget {
                     },
                   ),
                   const SizedBox(height: 8.0),
+                  //Registrarse
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
