@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:proyecto/providers/chat_provider.dart';
+import 'package:proyecto/providers/edit_profile_provider.dart';
 import 'package:proyecto/providers/event_provider.dart';
 import 'package:proyecto/providers/login_provider.dart';
 import 'package:proyecto/providers/password_reset_provider.dart';
@@ -39,7 +40,12 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => PersonProvider()),
         ChangeNotifierProvider(create: (context) => PasswordResetProvider()),
         ChangeNotifierProvider(create: (context) => ChatProvider()),
-        ChangeNotifierProvider(create: (context) => EventProvider(),)
+        ChangeNotifierProvider(
+          create: (context) => EventProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => EditProfileProvider(),
+        ),
       ],
       child: MaterialApp(
         title: 'PoliMatch',
@@ -53,7 +59,8 @@ class MyApp extends StatelessWidget {
           ContactsScreen.routeName: (context) => const ContactsScreen(),
           EventScreen.routeName: (context) => EventScreen(),
           UserProfileScreen.routeName: (context) => const UserProfileScreen(),
-          EditUserProfileScreen.routeName:(context) => const EditUserProfileScreen(),
+          EditUserProfileScreen.routeName: (context) =>
+              const EditUserProfileScreen(),
         },
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFFF91659)),
@@ -61,7 +68,8 @@ class MyApp extends StatelessWidget {
           elevatedButtonTheme: ElevatedButtonThemeData(
             style: ElevatedButton.styleFrom(
               foregroundColor: const Color(0xFFFFFFFF),
-              backgroundColor:const Color(0xFFF91659), // Color del texto del botón (blanco)
+              backgroundColor:
+                  const Color(0xFFF91659), // Color del texto del botón (blanco)
             ),
           ),
           textButtonTheme: TextButtonThemeData(
@@ -175,4 +183,3 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
     );
   }
 }
-

@@ -1,4 +1,15 @@
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart';
+import 'package:provider/provider.dart';
+import 'package:proyecto/dtos/person_model.dart';
+import 'package:proyecto/providers/edit_profile_provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:proyecto/providers/person_provider.dart';
+import 'package:proyecto/widgets/image_profile.dart';
 
 class EditUserProfileScreen extends StatefulWidget {
   static const routeName = '/edit_myprofile';
@@ -21,27 +32,35 @@ class _EditUserProfileScreenState extends State<EditUserProfileScreen> {
     'Dibujar',
     'Pintar',
   ];
-  late List<String> miIntereses;
+
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  late List<String> miIntereses = [];
+  late String _selectedGender = 'Masculino';
+  late String _selectedFaculty = 'FIS';
   late List<Widget> containerWidgets;
-  TextEditingController _nombreUsuarioController = TextEditingController(text: 'Cristian Verduga');
+
+  TextEditingController _nombreUsuarioController =
+      TextEditingController(text: 'Cristian Verduga');
   TextEditingController _descripcionUsuarioController = TextEditingController(
-    text: 'Soy un chico que ama la vida, me gustan las actividades que me sacan de mi zona de confort.');
-  TextEditingController _generoController = TextEditingController(text: 'Masculino');
-  TextEditingController _facultadController = TextEditingController(text: 'Facultad de Sistemas');
-  TextEditingController _edadController = TextEditingController(text: '21 años');
+      text:
+          'Soy un chico que ama la vida, me gustan las actividades que me sacan de mi zona de confort.');
+  TextEditingController _generoController =
+      TextEditingController(text: 'Masculino');
+  TextEditingController _facultadController =
+      TextEditingController(text: 'Facultad de Sistemas');
+  TextEditingController _edadController =
+      TextEditingController(text: '21 años');
   @override
   Widget build(BuildContext context) {
-    containerWidgets = buildContainersWithBorder(intereses);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Editar Perfil de Usuario', 
-        style: TextStyle(
-        color: Colors.white,
-        fontSize: 15, 
-        fontWeight: FontWeight.normal)),
+        title: const Text('Editar Perfil de Usuario',
+            style: TextStyle(
+                color: Colors.white,
+                fontSize: 15,
+                fontWeight: FontWeight.normal)),
         backgroundColor: const Color.fromARGB(255, 249, 22, 89),
       ),
-
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
@@ -50,30 +69,36 @@ class _EditUserProfileScreenState extends State<EditUserProfileScreen> {
             padding: const EdgeInsets.only(top: 10.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget> [
-                Container(
-                  width: 150.0,
-                  height: 150.0,
-                  decoration:  BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: const Color.fromARGB(255, 249, 22, 89),
-                      width: 4.0,),
-                    image: const DecorationImage(
-                      image: AssetImage('lib/images/usuarioGenerico.png'),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 10.0), // Espacio entre el texto y el botón
+              children: <Widget>[
+                buildProfileImage(context),
+                const SizedBox(
+                    width: 10.0), // Espacio entre el texto y el botón
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     // Escoger foto desde la galeria
+                    final ImagePicker picker = ImagePicker();
+                    // Pick an image
+                    final XFile? image = await picker.pickImage(
+                        source: ImageSource.gallery, imageQuality: 70);
+                    //subir la foto
+                    setState(() {
+                      if (image != null) {
+                        Provider.of<EditProfileProvider>(context, listen: false)
+                            .uploadProfilePicture(
+                          File(image.path),
+                          _firebaseAuth.currentUser!.uid,
+                        );
+                      } else {
+                        print('No image selected.');
+                      }
+                    });
                   },
                   style: ElevatedButton.styleFrom(
-                    shape: const CircleBorder(), 
-                    backgroundColor: const Color.fromARGB(255, 249, 22, 89), // Color de fondo del botón
-                    padding: const EdgeInsets.all(16.0), // Espaciado interno del botón
+                    shape: const CircleBorder(),
+                    backgroundColor: const Color.fromARGB(
+                        255, 249, 22, 89), // Color de fondo del botón
+                    padding: const EdgeInsets.all(
+                        16.0), // Espaciado interno del botón
                   ),
                   child: const Icon(
                     Icons.upload, // Icono del botón (puedes cambiarlo)
@@ -85,40 +110,38 @@ class _EditUserProfileScreenState extends State<EditUserProfileScreen> {
           ),
           //Nombre Usuario
           Padding(
-            padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-            child: TextField(
-              decoration: const InputDecoration(
-                labelText: 'Nombre de usuario', // Etiqueta del campo
-                border: OutlineInputBorder(), // Borde del campo
-              ),
-              style: const TextStyle(
-                fontSize: 16.0,
-                fontWeight: FontWeight.bold,
-              ),
-              controller: _nombreUsuarioController,
-              onChanged: (newValue) {
-                _nombreUsuarioController.text = newValue;
-              },
-            )
-          ),
+              padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+              child: TextField(
+                decoration: const InputDecoration(
+                  labelText: 'Nombre de usuario', // Etiqueta del campo
+                  border: OutlineInputBorder(), // Borde del campo
+                ),
+                style: const TextStyle(
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.bold,
+                ),
+                controller: _nombreUsuarioController,
+                onChanged: (newValue) {
+                  _nombreUsuarioController.text = newValue;
+                },
+              )),
           // Información del usuario
           Padding(
-            padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-            child: TextField(
-              decoration: const InputDecoration(
-                labelText: 'Descripción de usuario', // Etiqueta del campo
-                border: OutlineInputBorder(), // Borde del campo
-              ),
-              style: const TextStyle(
-                fontSize: 12.0,
-                fontWeight: FontWeight.bold,
-              ),
-              controller: _descripcionUsuarioController,
-              onChanged: (newValue) {
-                _descripcionUsuarioController.text = newValue;
-              },
-            )
-          ),
+              padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+              child: TextField(
+                decoration: const InputDecoration(
+                  labelText: 'Descripción de usuario', // Etiqueta del campo
+                  border: OutlineInputBorder(), // Borde del campo
+                ),
+                style: const TextStyle(
+                  fontSize: 12.0,
+                  fontWeight: FontWeight.bold,
+                ),
+                controller: _descripcionUsuarioController,
+                onChanged: (newValue) {
+                  _descripcionUsuarioController.text = newValue;
+                },
+              )),
           //Edad
           Padding(
             padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
@@ -143,7 +166,7 @@ class _EditUserProfileScreenState extends State<EditUserProfileScreen> {
                       },
                     ),
                   ),
-                ),// Espacio entre los TextField
+                ), // Espacio entre los TextField
                 Expanded(
                   child: FractionallySizedBox(
                     widthFactor: 0.9,
@@ -188,12 +211,13 @@ class _EditUserProfileScreenState extends State<EditUserProfileScreen> {
           //Intereses
           Container(
             padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: <Widget>[
+            child: Column(children: <Widget>[
               const Padding(
-                padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 10.0), // Aplicar espaciado solo hacia abajo
+                padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0,
+                    10.0), // Aplicar espaciado solo hacia abajo
                 child: Align(
-                  alignment: Alignment.centerLeft, // Alinear el texto a la izquierda
+                  alignment:
+                      Alignment.centerLeft, // Alinear el texto a la izquierda
                   child: Text(
                     'Intereses',
                     style: TextStyle(
@@ -206,11 +230,12 @@ class _EditUserProfileScreenState extends State<EditUserProfileScreen> {
               //Primer categoria de intereses
               Wrap(
                 spacing: 16.0, // Espaciado horizontal entre contenedores
-                runSpacing: 16.0, // Espaciado vertical entre filas de contenedores
-                children: containerWidgets,
+                runSpacing:
+                    16.0, // Espaciado vertical entre filas de contenedores
+                //children: containerWidgets,
+                children: buildInterestWidgets(intereses),
               ),
-            ]
-            ),
+            ]),
           ),
           // Spacer para empujar la opción de cierre de sesión hacia abajo
           const Spacer(),
@@ -222,8 +247,10 @@ class _EditUserProfileScreenState extends State<EditUserProfileScreen> {
                 // Acción para cerrar sesión
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red, // Color de fondo del botón de cierre de sesión
-                padding: const EdgeInsets.all(16.0), // Espaciado interno del botón
+                backgroundColor:
+                    Colors.red, // Color de fondo del botón de cierre de sesión
+                padding:
+                    const EdgeInsets.all(16.0), // Espaciado interno del botón
               ),
               child: const Text(
                 'Guardar Cambios',
@@ -237,38 +264,58 @@ class _EditUserProfileScreenState extends State<EditUserProfileScreen> {
           ),
         ],
       ),
-      
     );
   }
-}
 
-Widget _buildContainerWithBorder(String text) {
-    return IntrinsicWidth(
-      child: Container(
-        padding: const EdgeInsets.all(8.0),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10.0), // Define los bordes redondeados
-          border: Border.all(
-            color: Colors.red, // Color del borde
-            width: 2.0, // Ancho del borde
-          ),
-        ),
-        child: Center(
-          child: Text(
-            text,
-            textAlign: TextAlign.center,
-          ),
-        ),
-      ),
-    );
-}
+  Widget buildProfileImage(BuildContext context) {
+    Person person = Provider.of<PersonProvider>(context, listen: false)
+        .getPersonById(_firebaseAuth.currentUser!.uid);
 
-List<Widget> buildContainersWithBorder(List<String> texts) {
-  List<Widget> containers = [];
-
-  for (String text in texts) {
-    containers.add(_buildContainerWithBorder(text));
+    return ProfileImage(profilePictureUrl: person.imagen.toString());
   }
 
-  return containers;
+  List<Widget> buildInterestWidgets(List<String> interests) {
+    List<Widget> interestWidgets = [];
+
+    for (String interest in interests) {
+      bool isSelected = miIntereses.contains(interest);
+
+      interestWidgets.add(
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              if (isSelected) {
+                miIntereses.remove(interest);
+              } else {
+                miIntereses.add(interest);
+              }
+            });
+          },
+          child: IntrinsicWidth(
+            child: Container(
+              padding: const EdgeInsets.all(8.0),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                border: Border.all(
+                  color: isSelected ? Colors.black : Colors.red,
+                  width: 2.0,
+                ),
+                color: isSelected ? Colors.black : Colors.transparent,
+              ),
+              child: Center(
+                child: Text(
+                  interest,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: isSelected ? Colors.white : Colors.black,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+    }
+    return interestWidgets;
+  }
 }
