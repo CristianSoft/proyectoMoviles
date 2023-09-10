@@ -63,6 +63,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 ElevatedButton(
                   onPressed: () {
                     // Acción al presionar el botón
+                    Navigator.pushNamed(context, EditUserProfileScreen.routeName);
                   },
                   style: ElevatedButton.styleFrom(
                     shape: const CircleBorder(), 
