@@ -20,7 +20,7 @@ class _EventScreenState extends State<EventScreen> {
       ),
       body: ListView(
         children: <Widget>[
-           Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[

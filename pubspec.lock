@@ -468,10 +468,17 @@ packages:
     dependency: transitive
     description:
       name: google_maps_flutter_web
+<<<<<<< HEAD
       sha256: "05067c5aa762ebee44b7ef4902a311ed8cf891ef655e2798bae063aa3050c8d9"
       url: "https://pub.dev"
     source: hosted
     version: "0.5.4+1"
+=======
+      sha256: f893d1542c6562bc8299ef768fbbe92ade83c220ab3209b9477ec9f81ad585e4
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.5.4+2"
+>>>>>>> 359807c125f1c68bb4197739de04fc4015bad5db
   google_sign_in:
     dependency: transitive
     description:
@@ -1030,5 +1037,10 @@ packages:
     source: hosted
     version: "1.0.3"
 sdks:
+<<<<<<< HEAD
   dart: ">=3.0.3 <4.0.0"
   flutter: ">=3.10.0"
+=======
+  dart: ">=3.1.0 <4.0.0"
+  flutter: ">=3.13.0"
+>>>>>>> 359807c125f1c68bb4197739de04fc4015bad5db

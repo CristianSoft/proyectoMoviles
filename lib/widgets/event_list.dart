@@ -16,7 +16,7 @@ class _EventListState extends State<EventList> {
         Provider.of<EventProvider>(context, listen: false).events;
 
     return SizedBox(
-      height: 235,
+      height: 10000,
       child: ListView.builder(
           itemCount: eventsData.length,
           itemBuilder: (context, index) {
@@ -35,14 +35,15 @@ class _EventListState extends State<EventList> {
                           topLeft: Radius.circular(15),
                           bottomLeft: Radius.circular(15)),
                       child: Image(
-                        image: NetworkImage(eventsData[index].imageUrl, scale: 3),
+                        image:
+                            NetworkImage(eventsData[index].imageUrl, scale: 3),
                       ),
                     ),
                   ),
                   Flexible(
                     flex: 3,
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
@@ -53,11 +54,12 @@ class _EventListState extends State<EventList> {
                                 fontSize: 16, fontWeight: FontWeight.bold),
                           ),
                         ),
-                        const Padding(
-                          padding: EdgeInsets.only(left: 8, bottom: 6, right: 8),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 8, bottom: 6, right: 8),
                           child: Text(
-                            'Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto.',
-                            style: TextStyle(fontSize: 12),
+                            eventsData[index].description,
+                            style: const TextStyle(fontSize: 12),
                           ),
                         ),
                         Padding(
@@ -67,8 +69,8 @@ class _EventListState extends State<EventList> {
                             children: [
                               Text(
                                 eventsData[index].date,
-                                style:
-                                    const TextStyle(fontWeight: FontWeight.w400),
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w400),
                               ),
                               const SizedBox(
                                 width: 20,
