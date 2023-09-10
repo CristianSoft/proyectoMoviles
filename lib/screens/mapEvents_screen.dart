@@ -12,20 +12,25 @@ class MapEventsScreen extends StatefulWidget {
 
 class _MapEventsScreenState extends State<MapEventsScreen> {
   Location location = Location();
-  LatLng _center = const LatLng(-0.103149, -78.448075);
+  LatLng _center = const LatLng(-0.181031, -78.484054);
   bool? _serviceEnabled;
   PermissionStatus? _permissionStatus;
   LocationData? _locationData;
   Set<Marker> markers = {};
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   markers.add(const Marker(
-  //       markerId: MarkerId('1'), 
-  //       position: LatLng(-0.103149, -78.448075))
-  //     );
-  // }
+  @override
+  void initState() {
+    super.initState();
+    markers.add(const Marker(
+        markerId: MarkerId('1'), 
+        position: LatLng(-0.181031, -78.484054),
+        icon: BitmapDescriptor.defaultMarker,
+        infoWindow: InfoWindow(
+          title: 'Evento 1',
+          snippet: 'Este es el evento 1',
+        ),
+    ));
+  }
 
   Future<void> initialLocation() async {
     _serviceEnabled = await location.serviceEnabled();
@@ -64,6 +69,7 @@ class _MapEventsScreenState extends State<MapEventsScreen> {
           if (snapshot.connectionState == ConnectionState.done) {
             return GoogleMap(
               initialCameraPosition: CameraPosition(target: _center, zoom: 14),
+              markers: markers,
             );
           } else {
             return const Center(

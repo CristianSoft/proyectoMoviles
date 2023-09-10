@@ -38,6 +38,7 @@ class _CajaWidgetState extends State<CajaWidget> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ClipRRect(
+              
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(25),
                 topRight: Radius.circular(25),

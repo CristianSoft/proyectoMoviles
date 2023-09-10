@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:proyecto/providers/login_provider.dart';
+import 'package:proyecto/providers/person_provider.dart';
 import 'package:proyecto/screens/edit_profile_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:proyecto/screens/login_screen.dart';
 
 class UserProfileScreen extends StatefulWidget {
   static const routeName = '/myprofile';
@@ -12,9 +19,48 @@ class UserProfileScreen extends StatefulWidget {
 class _UserProfileScreenState extends State<UserProfileScreen> {
   final List<String> intereses = ['Texto 1', 'Texto 2', 'Texto 3','Texto 1', 'Texto 2', 'Texto 3'];
   late List<Widget> containerWidgets;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  
+  Map<String, dynamic>? _userData;
+
+  void signOut() {
+                  //get auth sevrice
+                  final authService = Provider.of<LoginProvider>(context, listen: false);
+                  authService.logout();
+                 
+                }
+
+  Future<void> _loadUserData() async {
+    try {
+      final userCollection = _firestore.collection('persona');
+      final userDoc = await userCollection.doc(_auth.currentUser?.uid).get();
+
+      if (userDoc.exists) {
+        setState(() {
+          _userData = userDoc.data() as Map<String, dynamic>;
+        });
+      }
+    } catch (e) {
+      print('Error al cargar los datos del usuario: $e');
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData(); 
+  }
+
   @override
   Widget build(BuildContext context) {
     containerWidgets = buildContainersWithBorder(intereses);
+    final String? userName = _userData?['nombre'] as String?;
+    final int? userAge = _userData?['edad'] as int?;
+    final String? userGender = _userData?['genero'] as String?;
+    final String? userDescription = _userData?['descripcion'] as String?;
+    final String? userFaculty = _userData?['facultad'] as String?;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Perfil de Usuario', 
@@ -52,9 +98,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                const Text(
-                  'Cristian Verduga',
-                  style: TextStyle(
+                Text(
+                  userName?? 'Nombre de usuario no disponible',
+                  style: const TextStyle(
                     fontSize: 24.0,
                     fontWeight: FontWeight.bold,
                   ),
@@ -79,13 +125,13 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             ),
           ),
           // Información del usuario
-          const Padding(
-            padding: EdgeInsets.all(16.0),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
             child: Center(
               child:
                 Text(
-                  'Soy un chico que ama la vida, me gustan las actividades que me sacan de mi zona de confort.',
-                  style: TextStyle(fontSize: 16.0),
+                  userDescription?? 'Descripción no disponible',
+                  style: const TextStyle(fontSize: 16.0),
                 )
             ),
           ),
@@ -103,9 +149,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     width: 2.0, // Ancho del borde
                   ), 
                 ),
-                child: const Center(
+                child: Center(
                   child: Text(
-                    'Masculino',
+                    userGender?? 'Genero no disponible',
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -119,9 +165,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     width: 2.0, // Ancho del borde
                   ), 
                 ),
-                child: const Center(
+                child: Center(
                   child: Text(
-                    'Facultad de Sistemas',
+                    userFaculty?? 'Facultad no disponible',
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -135,9 +181,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     width: 2.0, // Ancho del borde
                   ), 
                 ),
-                child: const Center(
+                child: Center(
                   child: Text(
-                    '21 años',
+                    userAge.toString()?? ' Edad no disponible',
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -180,10 +226,14 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             padding: const EdgeInsets.all(16.0),
             child: ElevatedButton(
               onPressed: () {
-                 Navigator.pushNamed(context, EditUserProfileScreen.routeName);
+                setState(() {
+                  signOut();
+                 Navigator.pushNamed(context, LoginScreen.routeName);
+                });
+                 
               },
               style: ElevatedButton.styleFrom(
-                primary: Colors.red, // Color de fondo del botón de cierre de sesión
+                backgroundColor: Colors.red, // Color de fondo del botón de cierre de sesión
                 padding: const EdgeInsets.all(16.0), // Espaciado interno del botón
               ),
               child: const Text(

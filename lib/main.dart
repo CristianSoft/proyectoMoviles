@@ -4,6 +4,7 @@ import 'package:proyecto/providers/chat_provider.dart';
 import 'package:proyecto/providers/edit_profile_provider.dart';
 import 'package:proyecto/providers/event_provider.dart';
 import 'package:proyecto/providers/login_provider.dart';
+import 'package:proyecto/providers/matches_provider.dart';
 import 'package:proyecto/providers/password_reset_provider.dart';
 import 'package:proyecto/providers/person_provider.dart';
 import 'package:proyecto/providers/signup_provider.dart';
@@ -41,10 +42,13 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => PasswordResetProvider()),
         ChangeNotifierProvider(create: (context) => ChatProvider()),
         ChangeNotifierProvider(
+          create: (context) => EditProfileProvider(),
+        ),
+        ChangeNotifierProvider(
           create: (context) => EventProvider(),
         ),
         ChangeNotifierProvider(
-          create: (context) => EditProfileProvider(),
+          create: (context) => MatchesProvider(),
         ),
       ],
       child: MaterialApp(
