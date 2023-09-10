@@ -10,6 +10,7 @@ import 'package:proyecto/screens/event_screen.dart';
 import 'package:proyecto/screens/login_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:proyecto/screens/contacts_screen.dart';
+import 'package:proyecto/screens/mapEvents_screen.dart';
 import 'package:proyecto/screens/password_reset_screen.dart';
 import 'package:proyecto/screens/signup_screen.dart';
 import 'firebase_options.dart';
@@ -40,13 +41,14 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'PoliMatch',
         //home: new MainWidget(),
-        initialRoute: EventScreen.routeName,
+        initialRoute: LoginScreen.routeName,
         routes: {
           LoginScreen.routeName: (context) => LoginScreen(),
           SignUpScreen.routeName: (context) => const SignUpScreen(),
           PasswordResetScreen.routeName: (context) => PasswordResetScreen(),
           ContactsScreen.routeName: (context) => const ContactsScreen(),
-          EventScreen.routeName: (context) => EventScreen()
+          EventScreen.routeName: (context) => EventScreen(),
+          MapEventsScreen.routeName: (context) => const MapEventsScreen()
         },
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFFF91659)),
