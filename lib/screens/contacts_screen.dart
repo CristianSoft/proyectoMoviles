@@ -31,26 +31,26 @@ class _ContactsScreenState extends State<ContactsScreen> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(0),
-                child: Image.asset('lib/images/LogoPolimatchSmall.png'),
-              ),
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text(
-                  'Bandeja de Entrada',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w900,
-                    color: Color(0xFFF91659),
-                  ),
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(0),
+              child: Image.asset('lib/images/LogoPolimatchSmall.png'),
+            ),
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                'Bandeja de Entrada',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w900,
+                  color: Color(0xFFF91659),
                 ),
-              )
-            ],
-          ),
+              ),
+            )
+          ],
+        ),
       ),
       body: _buildUserList(),
     );
@@ -80,6 +80,10 @@ class _ContactsScreenState extends State<ContactsScreen> {
     //display all users except the current
     if (_auth.currentUser!.email != data['correo']) {
       return ListTile(
+        leading: const Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Icon(Icons.account_box_rounded),
+        ),
         title: Text(data['nombre']),
         onTap: () {
           //ir al chat seleccionado
