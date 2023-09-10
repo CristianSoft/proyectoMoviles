@@ -87,7 +87,7 @@ class PersonProvider extends ChangeNotifier {
 */
     final querySnapShot = await FirebaseFirestore.instance
         .collection('persona')
-        .where('genero', isNotEqualTo: 'Masculino')
+        .where('genero', isEqualTo: 'Masculino')
         .where('correo', isNotEqualTo: _auth.currentUser?.email)
         .get();
 

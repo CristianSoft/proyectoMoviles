@@ -6,6 +6,7 @@ import 'package:proyecto/providers/login_provider.dart';
 import 'package:proyecto/providers/password_reset_provider.dart';
 import 'package:proyecto/providers/person_provider.dart';
 import 'package:proyecto/providers/signup_provider.dart';
+import 'package:proyecto/screens/event_screen.dart';
 import 'package:proyecto/screens/login_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:proyecto/screens/contacts_screen.dart';
@@ -35,7 +36,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => SignUpProvider()),
         ChangeNotifierProvider(create: (context) => PersonProvider()),
         ChangeNotifierProvider(create: (context) => PasswordResetProvider()),
-        ChangeNotifierProvider(create: (context) => ChatProvider())
+        ChangeNotifierProvider(create: (context) => ChatProvider()),
+        ChangeNotifierProvider(create: (context) => EventProvider(),)
       ],
       child: MaterialApp(
         title: 'PoliMatch',
@@ -46,7 +48,8 @@ class MyApp extends StatelessWidget {
           LoginScreen.routeName: (context) => LoginScreen(),
           SignUpScreen.routeName: (context) => const SignUpScreen(),
           PasswordResetScreen.routeName: (context) => PasswordResetScreen(),
-          ContactsScreen.routeName: (context) => const ContactsScreen()
+          ContactsScreen.routeName: (context) => const ContactsScreen(),
+          EventScreen.routeName:(context) => EventScreen(),
         },
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFFF91659)),
@@ -54,8 +57,7 @@ class MyApp extends StatelessWidget {
           elevatedButtonTheme: ElevatedButtonThemeData(
             style: ElevatedButton.styleFrom(
               foregroundColor: const Color(0xFFFFFFFF),
-              backgroundColor:
-                  const Color(0xFFF91659), // Color del texto del botón (blanco)
+              backgroundColor:const Color(0xFFF91659), // Color del texto del botón (blanco)
             ),
           ),
           textButtonTheme: TextButtonThemeData(
@@ -90,22 +92,34 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MainWidget extends StatefulWidget {
+class MainWidget extends StatelessWidget {
   static const routeName = '/';
 
   const MainWidget({super.key});
 
   @override
-  State<MainWidget> createState() => _MainWidgetState();
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: BottomNavigationWidget(),
+    );
+  }
 }
 
-class _MainWidgetState extends State<MainWidget> {
+class BottomNavigationWidget extends StatefulWidget {
+  const BottomNavigationWidget({Key? key}) : super(key: key);
+
+  @override
+  _BottomNavigationWidgetState createState() => _BottomNavigationWidgetState();
+}
+
+class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
   int _selectedIndex = 0;
 
-  final List<Widget> _mainWidgets = [
+  final List<Widget> _mainWidgets = const [
     SugerenciasWidget(),
     ContactsScreen(),
     EventList(),
+    //UserProfileScreen(), // Agrega una pantalla de perfil aquí
   ];
 
   void _onTapItem(int index) {
@@ -119,39 +133,42 @@ class _MainWidgetState extends State<MainWidget> {
     return Scaffold(
       body: _mainWidgets[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.black12,
+        selectedItemColor: const Color(0xFFF91659),
+        unselectedItemColor: const Color(0xFFF91659),
+        iconSize: 35.0,
         items: [
           BottomNavigationBarItem(
             icon: Image.asset(
-              'lib/images/logoLogin.png', // Ruta de la imagen del logotipo
+              'lib/images/LogoPolimatchSmall.png',
+              width: 40.0,
+              height: 40.0,
             ),
             label: 'Sugerencias',
           ),
           const BottomNavigationBarItem(
             icon: Icon(
               Icons.messenger,
-              color: Colors.white,
             ),
-            label: 'Pokemons',
+            label: 'Matches',
           ),
           const BottomNavigationBarItem(
             icon: Icon(
               Icons.calendar_month,
-              color: Colors.white,
             ),
-            label: 'Favoritos',
+            label: 'Eventos',
           ),
           const BottomNavigationBarItem(
             icon: Icon(
               Icons.account_circle_rounded,
-              color: Colors.white,
             ),
-            label: 'Favoritos',
+            label: 'Mi Perfil',
           )
         ],
-        backgroundColor: const Color(0xFFF91659),
         currentIndex: _selectedIndex,
         onTap: _onTapItem,
       ),
     );
   }
 }
+
