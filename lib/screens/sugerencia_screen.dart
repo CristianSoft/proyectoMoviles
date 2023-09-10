@@ -64,54 +64,56 @@ class _SugerenciasWidgetState extends State<SugerenciasWidget> {
             ],
           ),
       ),
-      body: Column(
-        children: [
-          FutureBuilder(
-            future: Provider.of<PersonProvider>(context, listen: false)
-                .initSugerenciasList(),
-            builder: (context, snapshot) {
-              return CajaWidget(
-                  usuario: Provider.of<PersonProvider>(context, listen: false)
-                      .sugerenciasGetter[i]);
-            },
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 20, 30, 0),
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                        shape: const CircleBorder(),
-                        padding: const EdgeInsets.all(20),
-                        backgroundColor:
-                            const Color.fromARGB(255, 249, 22, 89)),
-                    child: const Icon(
-                      Icons.favorite,
-                      size: 40,
-                    ),
-                  )),
-              Padding(
-                  padding: const EdgeInsets.fromLTRB(30, 20, 0, 0),
-                  child: ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          siguiente();
-                        });
-                      },
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            FutureBuilder(
+              future: Provider.of<PersonProvider>(context, listen: false)
+                  .initSugerenciasList(),
+              builder: (context, snapshot) {
+                return CajaWidget(
+                    usuario: Provider.of<PersonProvider>(context, listen: false)
+                        .sugerenciasGetter[i]);
+              },
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 20, 30, 0),
+                    child: ElevatedButton(
+                      onPressed: () {},
                       style: ElevatedButton.styleFrom(
                           shape: const CircleBorder(),
                           padding: const EdgeInsets.all(20),
                           backgroundColor:
                               const Color.fromARGB(255, 249, 22, 89)),
                       child: const Icon(
-                        Icons.close,
+                        Icons.favorite,
                         size: 40,
-                      )))
-            ],
-          )
-        ],
+                      ),
+                    )),
+                Padding(
+                    padding: const EdgeInsets.fromLTRB(30, 20, 0, 0),
+                    child: ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            siguiente();
+                          });
+                        },
+                        style: ElevatedButton.styleFrom(
+                            shape: const CircleBorder(),
+                            padding: const EdgeInsets.all(20),
+                            backgroundColor:
+                                const Color.fromARGB(255, 249, 22, 89)),
+                        child: const Icon(
+                          Icons.close,
+                          size: 40,
+                        )))
+              ],
+            )
+          ],
+        ),
       ),
     );
   }

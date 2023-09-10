@@ -29,14 +29,28 @@ class _ContactsScreenState extends State<ContactsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Bandeja de Entrada',
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
-        ),
-        backgroundColor: Colors.blue,
-        actions: [
-          IconButton(onPressed: signOut, icon: const Icon(Icons.logout)),
-        ],
+        automaticallyImplyLeading: false,
+        title: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(0),
+                child: Image.asset('lib/images/LogoPolimatchSmall.png'),
+              ),
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text(
+                  'Bandeja de Entrada',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w900,
+                    color: Color(0xFFF91659),
+                  ),
+                ),
+              )
+            ],
+          ),
       ),
       body: _buildUserList(),
     );

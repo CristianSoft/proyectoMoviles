@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:proyecto/main.dart';
 import 'package:proyecto/providers/login_provider.dart';
 import 'package:proyecto/screens/contacts_screen.dart';
 import 'package:proyecto/screens/password_reset_screen.dart';
 import 'package:proyecto/screens/signup_screen.dart';
+import 'package:proyecto/screens/sugerencia_screen.dart';
 import 'package:proyecto/widgets/interfaz_inicio.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -116,7 +118,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               try {
                                 await authProvider.login(email, password);
                                 //CAMBIAR LA RUTA A LA QUE SE DIRIGE
-                                Navigator.pushNamed(context, ContactsScreen.routeName);
+                                Navigator.pushNamed(context, MainWidget.routeName);
                               } catch (e) {
                                 if (e is FirebaseException) {
                                   if (e.message!.contains('wrong-password')) {
