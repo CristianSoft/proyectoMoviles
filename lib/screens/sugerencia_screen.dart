@@ -1,10 +1,15 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:proyecto/providers/matches_provider.dart';
+import 'package:proyecto/providers/login_provider.dart';
 import 'package:proyecto/providers/person_provider.dart';
 import 'package:proyecto/widgets/caja_usuario.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SugerenciasWidget extends StatefulWidget {
   static const routeName = '/sugerencia';
+
   const SugerenciasWidget({super.key});
 
   @override
@@ -13,22 +18,28 @@ class SugerenciasWidget extends StatefulWidget {
 
 class _SugerenciasWidgetState extends State<SugerenciasWidget> {
   int i = 0;
+
   @override
   void initState() {
     Provider.of<PersonProvider>(context, listen: false).initPersonList();
+    Provider.of<PersonProvider>(context, listen: false).initSugerenciasList();
+    Provider.of<MatchesProvider>(context, listen: false).obtenerLikes();
+    Provider.of<MatchesProvider>(context, listen: false).obtenerMatches();
     super.initState();
   }
 
   void siguiente() {
-    if (i <
-        Provider.of<PersonProvider>(context, listen: false)
-                .usuariosGetter
-                .length -
-            1) {
-      i++;
-    } else {
-      i = 0;
-    }
+    setState(() {
+      if (i <
+          Provider.of<PersonProvider>(context, listen: false)
+                  .sugerenciasGetter
+                  .length -
+              1) {
+        i++;
+      } else {
+        i = 0;
+      }
+    });
   }
 
   @override
@@ -37,62 +48,68 @@ class _SugerenciasWidgetState extends State<SugerenciasWidget> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(0),
-                child: Image.asset('lib/images/LogoPolimatchSmall.png'),
-              ),
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text(
-                  'Sugerencias',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w900,
-                    color: Color(0xFFF91659),
-                  ),
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(0),
+              child: Image.asset('lib/images/LogoPolimatchSmall.png'),
+            ),
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                'Sugerencias',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w900,
+                  color: Color(0xFFF91659),
                 ),
-              )
-            ],
-          ),
+              ),
+            )
+          ],
+        ),
       ),
-      body: Column(
-        children: [
-          FutureBuilder(
-            future: Provider.of<PersonProvider>(context, listen: false)
-                .initPersonList(),
-            builder: (context, snapshot) {
-              return CajaWidget(
-                  usuario: Provider.of<PersonProvider>(context, listen: false)
-                      .usuariosGetter[i]);
-            },
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 20, 30, 0),
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                        shape: const CircleBorder(),
-                        padding: const EdgeInsets.all(20),
-                        backgroundColor:
-                            const Color.fromARGB(255, 249, 22, 89)),
-                    child: const Icon(
-                      Icons.favorite,
-                      size: 40,
-                    ),
-                  )),
-              Padding(
-                  padding: const EdgeInsets.fromLTRB(30, 20, 0, 0),
-                  child: ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          siguiente();
-                        });
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            FutureBuilder(
+              future: Provider.of<PersonProvider>(context, listen: false)
+                  .initSugerenciasList(),
+              builder: (context, snapshot) {
+                return CajaWidget(
+                    usuario: Provider.of<PersonProvider>(context, listen: false)
+                        .sugerenciasGetter[i]);
+              },
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 20, 30, 0),
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        final correoSugerencia =
+                            Provider.of<PersonProvider>(context, listen: false)
+                                .sugerenciasGetter[i]
+                                .email;
+                        final id =
+                            Provider.of<PersonProvider>(context, listen: false)
+                                .sugerenciasGetter[i]
+                                .id;
+                        await Provider.of<MatchesProvider>(context,
+                                listen: false)
+                            .addEmailToLike(correoSugerencia);
+                        await Provider.of<MatchesProvider>(context,
+                                listen: false)
+                            .obtenerLikes();
+                        if (await Provider.of<MatchesProvider>(context,
+                                listen: false)
+                            .sonMatch(id)) {
+                          await Provider.of<MatchesProvider>(context,
+                                  listen: false)
+                              .addEmailToMatch(correoSugerencia);
+                        }
+                        siguiente();
                       },
                       style: ElevatedButton.styleFrom(
                           shape: const CircleBorder(),
@@ -100,12 +117,31 @@ class _SugerenciasWidgetState extends State<SugerenciasWidget> {
                           backgroundColor:
                               const Color.fromARGB(255, 249, 22, 89)),
                       child: const Icon(
-                        Icons.close,
+                        Icons.favorite,
                         size: 40,
-                      )))
-            ],
-          )
-        ],
+                      ),
+                    )),
+                Padding(
+                    padding: const EdgeInsets.fromLTRB(30, 20, 0, 0),
+                    child: ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            siguiente();
+                          });
+                        },
+                        style: ElevatedButton.styleFrom(
+                            shape: const CircleBorder(),
+                            padding: const EdgeInsets.all(20),
+                            backgroundColor:
+                                const Color.fromARGB(255, 249, 22, 89)),
+                        child: const Icon(
+                          Icons.close,
+                          size: 40,
+                        )))
+              ],
+            )
+          ],
+        ),
       ),
     );
   }

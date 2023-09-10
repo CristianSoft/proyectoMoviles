@@ -1,4 +1,5 @@
 import 'dart:ffi';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:proyecto/providers/login_provider.dart';
@@ -59,6 +60,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       edad: int.tryParse(_ageController.text),
       descripcion: _descriptionController.text,
       genero: _selectedGender!,
+      imagen: 'lib/images/usuarioGenerico.png',
     );
   }
 
@@ -196,20 +198,28 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         onPressed: () async {
                           try {
                             // Verifica que _selectedFaculty no sea nulo antes de continuar
-                            if (_selectedFaculty != null) {
+                            if (_selectedFaculty != null &&
+                                _nameController.text.isNotEmpty &&
+                                _emailController.text.isNotEmpty &&
+                                _passwordController.text.isNotEmpty &&
+                                _confirmPasswordController.text.isNotEmpty &&
+                                _ageController.text.isNotEmpty &&
+                                _descriptionController.text.isNotEmpty &&
+                                _selectedGender != null) {
                               await addPerson();
                               //Registro exitoso
                               setState(() {
-                                _successMessage =
-                                    'Registro exitoso. ¡Bienvenido ${_nameController.text}!';
+                                _successMessage = 'Registro exitoso. ¡Bienvenido ${_nameController.text}!';
                                 _errorMessage = null;
                               });
                               //Limpia los campos
                               cleanData();
-                              //Navigator.pushNamed(context, LoginScreen.routeName);
                             } else {
-                              print(
-                                  'Por favor, selecciona una facultad antes de continuar.');
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Por favor, complete todos los campos antes de continuar.'),
+                                ),
+                              );
                             }
                           } catch (e) {
                             // Registro fallido

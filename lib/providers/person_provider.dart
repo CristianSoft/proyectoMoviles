@@ -1,18 +1,27 @@
 import 'dart:collection';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:provider/provider.dart';
 import 'package:proyecto/dtos/person_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+import 'login_provider.dart';
 
 class PersonProvider extends ChangeNotifier {
   final CollectionReference _personCollection =
       FirebaseFirestore.instance.collection('persona');
+      final FirebaseAuth _auth = FirebaseAuth.instance;
 
   var setOptions = SetOptions(merge: true);
 
   List<Person> _listaUsuarios = [];
   UnmodifiableListView<Person> get usuariosGetter =>
       UnmodifiableListView(_listaUsuarios);
+  List<Person> _listaSugerencias = [];
+  UnmodifiableListView<Person> get sugerenciasGetter =>
+      UnmodifiableListView(_listaSugerencias);
 
   Future<void> addPerson({
     required String nombre,
@@ -49,6 +58,47 @@ class PersonProvider extends ChangeNotifier {
         await FirebaseFirestore.instance.collection('persona').get();
 
     _listaUsuarios = querySnapShot.docs.map((doc) {
+      final data = doc.data();
+      if (data['imagen'] == null) {
+        data['imagen'] = "";
+      }
+      return Person(
+          id: data['uid'],
+          email: data['correo'],
+          faculty: data['facultad'],
+          name: data['nombre'],
+          password: '',
+          descripcion: data['descripcion'],
+          edad: data['edad'],
+          genero: data['genero'],
+          imagen: data['imagen']);
+    }).toList();
+    print("Estoy en person");
+    notifyListeners();
+  }
+
+  Future<void> initSugerenciasList() async {
+    
+    final querySnapShot1 = await FirebaseFirestore.instance
+        .collection('persona')
+        .where('correo', isEqualTo: _auth.currentUser?.email)
+        .get();
+        String genero= querySnapShot1.docs.first.data()['genero'];
+        if (genero != "Masculino") {
+          genero="Masculino";
+        }else{
+          genero="Femenino";
+        }
+    
+    print("///////////////genero"+ genero);
+
+    final querySnapShot = await FirebaseFirestore.instance
+        .collection('persona')
+        .where('genero', isEqualTo: genero)
+        .where('correo', isNotEqualTo: _auth.currentUser?.email)
+        .get();
+
+    _listaSugerencias = querySnapShot.docs.map((doc) {
       final data = doc.data();
       if (data['imagen'] == null) {
         data['imagen'] = "";
