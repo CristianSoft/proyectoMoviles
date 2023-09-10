@@ -6,13 +6,13 @@ import 'package:proyecto/providers/login_provider.dart';
 import 'package:proyecto/providers/password_reset_provider.dart';
 import 'package:proyecto/providers/person_provider.dart';
 import 'package:proyecto/providers/signup_provider.dart';
-import 'package:proyecto/screens/event_screen.dart';
 import 'package:proyecto/screens/login_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:proyecto/screens/contacts_screen.dart';
-import 'package:proyecto/screens/mapEvents_screen.dart';
 import 'package:proyecto/screens/password_reset_screen.dart';
 import 'package:proyecto/screens/signup_screen.dart';
+import 'package:proyecto/screens/sugerencia_screen.dart';
+import 'package:proyecto/widgets/event_list.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -35,20 +35,18 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => SignUpProvider()),
         ChangeNotifierProvider(create: (context) => PersonProvider()),
         ChangeNotifierProvider(create: (context) => PasswordResetProvider()),
-        ChangeNotifierProvider(create: (context) => ChatProvider()),
-        ChangeNotifierProvider(create: (context) => EventProvider())
+        ChangeNotifierProvider(create: (context) => ChatProvider())
       ],
       child: MaterialApp(
         title: 'PoliMatch',
         //home: new MainWidget(),
         initialRoute: LoginScreen.routeName,
         routes: {
+          MainWidget.routeName: (context) => const MainWidget(),
           LoginScreen.routeName: (context) => LoginScreen(),
           SignUpScreen.routeName: (context) => const SignUpScreen(),
           PasswordResetScreen.routeName: (context) => PasswordResetScreen(),
-          ContactsScreen.routeName: (context) => const ContactsScreen(),
-          EventScreen.routeName: (context) => EventScreen(),
-          MapEventsScreen.routeName: (context) => const MapEventsScreen()
+          ContactsScreen.routeName: (context) => const ContactsScreen()
         },
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFFF91659)),
@@ -87,7 +85,72 @@ class MyApp extends StatelessWidget {
           ),
           useMaterial3: true,
         ),
-        home: LoginScreen(),
+      ),
+    );
+  }
+}
+
+class MainWidget extends StatefulWidget {
+  static const routeName = '/';
+
+  const MainWidget({super.key});
+
+  @override
+  State<MainWidget> createState() => _MainWidgetState();
+}
+
+class _MainWidgetState extends State<MainWidget> {
+  int _selectedIndex = 0;
+
+  final List<Widget> _mainWidgets = [
+    SugerenciasWidget(),
+    ContactsScreen(),
+    EventList(),
+  ];
+
+  void _onTapItem(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: _mainWidgets[_selectedIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        items: [
+          BottomNavigationBarItem(
+            icon: Image.asset(
+              'lib/images/logoLogin.png', // Ruta de la imagen del logotipo
+            ),
+            label: 'Sugerencias',
+          ),
+          const BottomNavigationBarItem(
+            icon: Icon(
+              Icons.messenger,
+              color: Colors.white,
+            ),
+            label: 'Pokemons',
+          ),
+          const BottomNavigationBarItem(
+            icon: Icon(
+              Icons.calendar_month,
+              color: Colors.white,
+            ),
+            label: 'Favoritos',
+          ),
+          const BottomNavigationBarItem(
+            icon: Icon(
+              Icons.account_circle_rounded,
+              color: Colors.white,
+            ),
+            label: 'Favoritos',
+          )
+        ],
+        backgroundColor: const Color(0xFFF91659),
+        currentIndex: _selectedIndex,
+        onTap: _onTapItem,
       ),
     );
   }
