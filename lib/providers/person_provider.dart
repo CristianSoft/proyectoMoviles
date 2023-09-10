@@ -12,7 +12,7 @@ import 'login_provider.dart';
 class PersonProvider extends ChangeNotifier {
   final CollectionReference _personCollection =
       FirebaseFirestore.instance.collection('persona');
-      final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   var setOptions = SetOptions(merge: true);
 
@@ -115,5 +115,9 @@ class PersonProvider extends ChangeNotifier {
           imagen: data['imagen']);
     }).toList();
     notifyListeners();
+  }
+
+  Person getPersonById(String id) {
+    return _listaUsuarios.firstWhere((element) => element.id == id);
   }
 }
