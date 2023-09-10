@@ -60,7 +60,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       edad: int.tryParse(_ageController.text),
       descripcion: _descriptionController.text,
       genero: _selectedGender!,
-      imagen: File('lib/images/usuarioGenerico.png'),
+      imagen: 'lib/images/usuarioGenerico.png',
     );
   }
 

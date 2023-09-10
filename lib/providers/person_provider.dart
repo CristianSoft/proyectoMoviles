@@ -32,7 +32,7 @@ class PersonProvider extends ChangeNotifier {
     int? edad,
     String? descripcion,
     String? genero,
-    File? imagen,
+    String? imagen,
   }) async {
     try {
       await _personCollection.doc(id).set({
@@ -78,16 +78,23 @@ class PersonProvider extends ChangeNotifier {
   }
 
   Future<void> initSugerenciasList() async {
-    /*
+    
     final querySnapShot1 = await FirebaseFirestore.instance
         .collection('persona')
         .where('correo', isEqualTo: _auth.currentUser?.email)
         .get();
-    String genero= querySnapShot1.docs.first.data()['genero'];
-*/
+        String genero= querySnapShot1.docs.first.data()['genero'];
+        if (genero != "Masculino") {
+          genero="Masculino";
+        }else{
+          genero="Femenino";
+        }
+    
+    print("///////////////genero"+ genero);
+
     final querySnapShot = await FirebaseFirestore.instance
         .collection('persona')
-        .where('genero', isEqualTo: 'Masculino')
+        .where('genero', isEqualTo: genero)
         .where('correo', isNotEqualTo: _auth.currentUser?.email)
         .get();
 

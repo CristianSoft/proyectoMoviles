@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:proyecto/providers/matches_provider.dart';
 import 'package:proyecto/providers/login_provider.dart';
 import 'package:proyecto/providers/person_provider.dart';
 import 'package:proyecto/widgets/caja_usuario.dart';
@@ -22,6 +23,8 @@ class _SugerenciasWidgetState extends State<SugerenciasWidget> {
   void initState() {
     Provider.of<PersonProvider>(context, listen: false).initPersonList();
     Provider.of<PersonProvider>(context, listen: false).initSugerenciasList();
+    Provider.of<MatchesProvider>(context, listen: false).obtenerLikes();
+    Provider.of<MatchesProvider>(context, listen: false).obtenerMatches();
     super.initState();
   }
 
@@ -82,7 +85,15 @@ class _SugerenciasWidgetState extends State<SugerenciasWidget> {
                 Padding(
                     padding: const EdgeInsets.fromLTRB(0, 20, 30, 0),
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        setState(() {
+                          Provider.of<MatchesProvider>(context, listen: false).addEmailToMatch(
+                            Provider.of<PersonProvider>(context, listen: false)
+                        .sugerenciasGetter[i].email
+                          );
+                          
+                        });
+                      },
                       style: ElevatedButton.styleFrom(
                           shape: const CircleBorder(),
                           padding: const EdgeInsets.all(20),

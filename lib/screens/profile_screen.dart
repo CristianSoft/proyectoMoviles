@@ -24,6 +24,13 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   
   Map<String, dynamic>? _userData;
 
+  void signOut() {
+                  //get auth sevrice
+                  final authService = Provider.of<LoginProvider>(context, listen: false);
+                  authService.logout();
+                 
+                }
+
   Future<void> _loadUserData() async {
     try {
       final userCollection = _firestore.collection('persona');
@@ -49,7 +56,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   Widget build(BuildContext context) {
     containerWidgets = buildContainersWithBorder(intereses);
     final String? userName = _userData?['nombre'] as String?;
-    final String? userAge = _userData?['edad'] as String?;
+    final int? userAge = _userData?['edad'] as int?;
     final String? userGender = _userData?['genero'] as String?;
     final String? userDescription = _userData?['descripcion'] as String?;
     final String? userFaculty = _userData?['facultad'] as String?;
@@ -176,7 +183,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 ),
                 child: Center(
                   child: Text(
-                    userAge?? ' Edad no disponible',
+                    userAge.toString()?? ' Edad no disponible',
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -219,13 +226,11 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             padding: const EdgeInsets.all(16.0),
             child: ElevatedButton(
               onPressed: () {
-                 //sign out function
-                void signOut() {
-                  //get auth sevrice
-                  final authService = Provider.of<LoginProvider>(context, listen: false);
-                  authService.logout();
-                  Navigator.pushNamed(context, LoginScreen.routeName);
-                }
+                setState(() {
+                  signOut();
+                 Navigator.pushNamed(context, LoginScreen.routeName);
+                });
+                 
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.red, // Color de fondo del botón de cierre de sesión
