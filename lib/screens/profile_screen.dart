@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class UserProfileScreen extends StatefulWidget {
+  static const routeName = '/myprofile';
   const UserProfileScreen({super.key});
 
   @override
