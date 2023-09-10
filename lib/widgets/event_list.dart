@@ -10,75 +10,83 @@ class EventList extends StatefulWidget {
 }
 
 class _EventListState extends State<EventList> {
-
   @override
   Widget build(BuildContext context) {
-
-    final eventsData = Provider.of<EventProvider>(context, listen: false).events;
+    final eventsData =
+        Provider.of<EventProvider>(context, listen: false).events;
 
     return SizedBox(
-      width: 300,
-      height: 200,
+      height: 235,
       child: ListView.builder(
-        itemCount: eventsData.length,
-        itemBuilder: (context, index) {
-        return SizedBox(
-          height: 200,
-          width: 150,
-          child: Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15),
-              side: const BorderSide(color: Color(0xFFF91659), width: 2.0),
-            ),
-            elevation: 5,
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+          itemCount: eventsData.length,
+          itemBuilder: (context, index) {
+            return Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15),
+                side: const BorderSide(color: Color(0xFFF91659), width: 2.0),
+              ),
+              elevation: 5,
+              child: Row(
                 children: [
-                  ClipRRect(
-                    borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(15),
-                        topRight: Radius.circular(15)),
-                    child: Image(
-                      image: NetworkImage(eventsData[index].imageUrl),
+                  Flexible(
+                    flex: 3,
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(15),
+                          bottomLeft: Radius.circular(15)),
+                      child: Image(
+                        image: NetworkImage(eventsData[index].imageUrl, scale: 3),
+                      ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10, top: 5),
-                    child: Text(
-                      eventsData[index].eventName,
-                      style:
-                          const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 10, top: 5),
-                    child: Text(
-                      '3 Polimatches',
-                      style: TextStyle(fontSize: 12),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10, top: 15),
-                    child: Row(
+                  Flexible(
+                    flex: 3,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          eventsData[index].date,
-                          style: const TextStyle(fontWeight: FontWeight.w400),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8, bottom: 6),
+                          child: Text(
+                            eventsData[index].eventName,
+                            style: const TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
                         ),
-                        const SizedBox(
-                          width: 20,
+                        const Padding(
+                          padding: EdgeInsets.only(left: 8, bottom: 6, right: 8),
+                          child: Text(
+                            'Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto.',
+                            style: TextStyle(fontSize: 12),
+                          ),
                         ),
-                        const Icon(
-                          Icons.calendar_month,
-                          color: Color(0xFFF91659),
-                        )
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                eventsData[index].date,
+                                style:
+                                    const TextStyle(fontWeight: FontWeight.w400),
+                              ),
+                              const SizedBox(
+                                width: 20,
+                              ),
+                              const Icon(
+                                Icons.calendar_month,
+                                color: Color(0xFFF91659),
+                              )
+                            ],
+                          ),
+                        ),
                       ],
                     ),
-                  )
-                ]),
-          ),
-        );
-      }),
+                  ),
+                ],
+              ),
+            );
+          }),
     );
   }
 }

@@ -18,7 +18,7 @@ class _EventScreenState extends State<EventScreen> {
       appBar: AppBar(
         title: const Text(''),
       ),
-      body: Column(
+      body: ListView(
         children: <Widget>[
           const Row(
             mainAxisAlignment: MainAxisAlignment.center,
