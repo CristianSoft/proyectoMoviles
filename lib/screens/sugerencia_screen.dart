@@ -1,10 +1,14 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:proyecto/providers/login_provider.dart';
 import 'package:proyecto/providers/person_provider.dart';
 import 'package:proyecto/widgets/caja_usuario.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SugerenciasWidget extends StatefulWidget {
   static const routeName = '/sugerencia';
+  
   const SugerenciasWidget({super.key});
 
   @override
@@ -13,16 +17,18 @@ class SugerenciasWidget extends StatefulWidget {
 
 class _SugerenciasWidgetState extends State<SugerenciasWidget> {
   int i = 0;
+  
   @override
   void initState() {
     Provider.of<PersonProvider>(context, listen: false).initPersonList();
+    Provider.of<PersonProvider>(context, listen: false).initSugerenciasList();
     super.initState();
   }
 
   void siguiente() {
     if (i <
         Provider.of<PersonProvider>(context, listen: false)
-                .usuariosGetter
+                .sugerenciasGetter
                 .length -
             1) {
       i++;
@@ -62,11 +68,11 @@ class _SugerenciasWidgetState extends State<SugerenciasWidget> {
         children: [
           FutureBuilder(
             future: Provider.of<PersonProvider>(context, listen: false)
-                .initPersonList(),
+                .initSugerenciasList(),
             builder: (context, snapshot) {
               return CajaWidget(
                   usuario: Provider.of<PersonProvider>(context, listen: false)
-                      .usuariosGetter[i]);
+                      .sugerenciasGetter[i]);
             },
           ),
           Row(
