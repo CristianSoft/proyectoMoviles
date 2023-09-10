@@ -12,16 +12,23 @@ class CajaWidget extends StatefulWidget {
 }
 
 class _CajaWidgetState extends State<CajaWidget> {
-   Widget loadIcon(String imagen) {
-    if (imagen == '') {
-      return const Icon(Icons.person,size:  300,);
-    } else {
-      return Image.network(
-        imagen,
+ Widget loadIcon(String imagen) {
+  if (imagen == '') {
+    return const Icon(Icons.person, size: 300);
+  } else {
+    return AspectRatio(
+      aspectRatio: 1.0, // Esto mantiene la relación de aspecto 1:1
+      child: FittedBox(
         fit: BoxFit.cover,
-      );
-    }
+        child: Image.network(
+          imagen,
+        ),
+      ),
+    );
   }
+}
+
+
   @override
   Widget build(BuildContext context) {
     return Padding(
