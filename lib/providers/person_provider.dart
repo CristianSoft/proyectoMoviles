@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -12,7 +13,6 @@ class PersonProvider extends ChangeNotifier {
   final CollectionReference _personCollection =
       FirebaseFirestore.instance.collection('persona');
       final FirebaseAuth _auth = FirebaseAuth.instance;
-  
 
   var setOptions = SetOptions(merge: true);
 
@@ -32,7 +32,7 @@ class PersonProvider extends ChangeNotifier {
     int? edad,
     String? descripcion,
     String? genero,
-    String? imagen,
+    File? imagen,
   }) async {
     try {
       await _personCollection.doc(id).set({

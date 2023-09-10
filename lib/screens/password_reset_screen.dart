@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:proyecto/providers/password_reset_provider.dart';
+import 'package:proyecto/screens/login_screen.dart';
 import 'package:proyecto/widgets/interfaz_inicio.dart';
 
 class PasswordResetScreen extends StatelessWidget {
@@ -13,14 +14,11 @@ class PasswordResetScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final passwordResetProvider = Provider.of<PasswordResetProvider>(context);
+    String? _errorMessage;
+
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color(0xFFF91659),
-        iconTheme:  const IconThemeData(
-          color: Colors.white,
-        ),
-      ),
+      appBar: null,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -50,8 +48,7 @@ class PasswordResetScreen extends StatelessWidget {
                     controller: _emailController,
                     onChanged: (email) {
                       final passwordResetProvider =
-                          Provider.of<PasswordResetProvider>(context,
-                              listen: false);
+                          Provider.of<PasswordResetProvider>(context, listen: false);
                       if (!passwordResetProvider.validateEmail(email)) {
                         // El correo electrónico no es válido, puedes mostrar un mensaje de error o deshabilitar el botón.
                         print('Correo electrónico no válido');
@@ -67,6 +64,13 @@ class PasswordResetScreen extends StatelessWidget {
                     child: ElevatedButton(
                       onPressed: () async {
                         final email = _emailController.text;
+                        if (email.isEmpty) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Por favor, ingrese un correo electrónico.'),
+                            ),
+                          );
+                        }
                         await passwordResetProvider.resetPassword(email);
                         final resetError = passwordResetProvider.resetError;
                         if (resetError == null) {
@@ -103,6 +107,19 @@ class PasswordResetScreen extends StatelessWidget {
                 ],
               ),
             ),
+            const SizedBox(height: 8.0),
+                    //Ir a inicio de sesión
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, LoginScreen.routeName);
+                      },
+                      child: const Text(
+                        'Regresar a Inicio de Sesión',
+                        style: TextStyle(
+                          fontSize: 16.0,
+                        ),
+                      ),
+                    ),
           ],
         ),
       ),
