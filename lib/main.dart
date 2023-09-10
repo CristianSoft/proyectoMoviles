@@ -6,9 +6,11 @@ import 'package:proyecto/providers/login_provider.dart';
 import 'package:proyecto/providers/password_reset_provider.dart';
 import 'package:proyecto/providers/person_provider.dart';
 import 'package:proyecto/providers/signup_provider.dart';
+import 'package:proyecto/screens/event_screen.dart';
 import 'package:proyecto/screens/login_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:proyecto/screens/contacts_screen.dart';
+import 'package:proyecto/screens/mapEvents_screen.dart';
 import 'package:proyecto/screens/password_reset_screen.dart';
 import 'package:proyecto/screens/signup_screen.dart';
 import 'firebase_options.dart';
@@ -33,7 +35,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => SignUpProvider()),
         ChangeNotifierProvider(create: (context) => PersonProvider()),
         ChangeNotifierProvider(create: (context) => PasswordResetProvider()),
-        ChangeNotifierProvider(create: (context) => ChatProvider())
+        ChangeNotifierProvider(create: (context) => ChatProvider()),
+        ChangeNotifierProvider(create: (context) => EventProvider())
       ],
       child: MaterialApp(
         title: 'PoliMatch',
@@ -43,7 +46,9 @@ class MyApp extends StatelessWidget {
           LoginScreen.routeName: (context) => LoginScreen(),
           SignUpScreen.routeName: (context) => const SignUpScreen(),
           PasswordResetScreen.routeName: (context) => PasswordResetScreen(),
-          ContactsScreen.routeName: (context) => const ContactsScreen()
+          ContactsScreen.routeName: (context) => const ContactsScreen(),
+          EventScreen.routeName: (context) => EventScreen(),
+          MapEventsScreen.routeName: (context) => const MapEventsScreen()
         },
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFFF91659)),
