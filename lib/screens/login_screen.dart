@@ -8,6 +8,7 @@ import 'package:proyecto/screens/password_reset_screen.dart';
 import 'package:proyecto/screens/signup_screen.dart';
 import 'package:proyecto/screens/sugerencia_screen.dart';
 import 'package:proyecto/widgets/interfaz_inicio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   static const routeName = '/login';
@@ -60,8 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     //Campos de ingreso de información
                     TextFormField(
                       controller: _emailController,
-                      decoration: const InputDecoration(
-                          labelText: 'Correo institucional*'),
+                      decoration: const InputDecoration(labelText: 'Correo institucional*'),
                     ),
                     const SizedBox(height: 16.0),
                     TextFormField(
@@ -86,14 +86,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     //Olvido su contraseña
                     TextButton(
                       onPressed: () {
-                        Navigator.pushNamed(
-                            context, PasswordResetScreen.routeName);
+                        Navigator.pushNamed(context, PasswordResetScreen.routeName);
                       },
-                      child: const Text(
-                        '¿Olvidó su contraseña?',
-                        style: TextStyle(
-                          fontSize: 16.0,
-                        ),
+                      child: const Text('¿Olvidó su contraseña?',
+                        style: TextStyle(fontSize: 16.0,),
                       ),
                     ),
                     const SizedBox(height: 8.0),
@@ -117,7 +113,10 @@ class _LoginScreenState extends State<LoginScreen> {
                               }
                               try {
                                 await authProvider.login(email, password);
-                                //CAMBIAR LA RUTA A LA QUE SE DIRIGE
+                                // Guarda el estado de inicio de sesión en SharedPreferences
+                                final prefs = await SharedPreferences.getInstance();
+                                await prefs.setBool('isLoggedIn', true);
+
                                 Navigator.pushNamed(context, MainWidget.routeName);
                               } catch (e) {
                                 if (e is FirebaseException) {
@@ -130,8 +129,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   } else {
                                     // Otro error de inicio de sesión
                                     setState(() {
-                                      _errorMessage =
-                                          'Error al iniciar sesión: ${e.message}';
+                                      _errorMessage = 'Error al iniciar sesión: ${e.message}';
                                     });
                                   }
                                 }
@@ -158,8 +156,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       children: [
                         TextButton(
                           onPressed: () {
-                            Navigator.pushNamed(
-                                context, SignUpScreen.routeName);
+                            Navigator.pushNamed(context, SignUpScreen.routeName);
                           },
                           child: const Text(
                             '¿No tiene cuenta? Registrarse gratis',
@@ -199,6 +196,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   onPressed: () {
                     setState(() {
                       _errorMessage = null;
+                      Navigator.pushNamed(context, LoginScreen.routeName);
                     });
                   },
                   child: const Text(
