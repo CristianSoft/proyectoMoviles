@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:proyecto/providers/login_provider.dart';
-import 'package:proyecto/providers/person_provider.dart';
 import 'package:proyecto/screens/edit_profile_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -63,12 +62,28 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Perfil de Usuario', 
-        style: TextStyle(
-        color: Colors.white,
-        fontSize: 15, 
-        fontWeight: FontWeight.normal)),
-        backgroundColor: const Color.fromARGB(255, 249, 22, 89),
+        automaticallyImplyLeading: false,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(0),
+              child: Image.asset('lib/images/LogoPolimatchSmall.png'),
+            ),
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                'Mi perfil',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w900,
+                  color: Color(0xFFF91659),
+                ),
+              ),
+            )
+          ],
+        ),
       ),
 
       body: Column(
