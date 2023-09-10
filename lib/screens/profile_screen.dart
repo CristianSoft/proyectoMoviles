@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:proyecto/screens/edit_profile_screen.dart';
 
 class UserProfileScreen extends StatefulWidget {
   static const routeName = '/myprofile';
@@ -178,7 +179,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             padding: const EdgeInsets.all(16.0),
             child: ElevatedButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/edit_myprofile');
+                 Navigator.pushNamed(context, EditUserProfileScreen.routeName);
               },
               style: ElevatedButton.styleFrom(
                 primary: Colors.red, // Color de fondo del botón de cierre de sesión
