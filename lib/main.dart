@@ -6,11 +6,13 @@ import 'package:proyecto/providers/login_provider.dart';
 import 'package:proyecto/providers/password_reset_provider.dart';
 import 'package:proyecto/providers/person_provider.dart';
 import 'package:proyecto/providers/signup_provider.dart';
+import 'package:proyecto/screens/edit_profile_screen.dart';
 import 'package:proyecto/screens/event_screen.dart';
 import 'package:proyecto/screens/login_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:proyecto/screens/contacts_screen.dart';
 import 'package:proyecto/screens/password_reset_screen.dart';
+import 'package:proyecto/screens/profile_screen.dart';
 import 'package:proyecto/screens/signup_screen.dart';
 import 'package:proyecto/screens/sugerencia_screen.dart';
 import 'package:proyecto/widgets/event_list.dart';
@@ -49,7 +51,9 @@ class MyApp extends StatelessWidget {
           SignUpScreen.routeName: (context) => const SignUpScreen(),
           PasswordResetScreen.routeName: (context) => PasswordResetScreen(),
           ContactsScreen.routeName: (context) => const ContactsScreen(),
-          EventScreen.routeName:(context) => EventScreen(),
+          EventScreen.routeName: (context) => EventScreen(),
+          UserProfileScreen.routeName: (context) => const UserProfileScreen(),
+          EditUserProfileScreen.routeName:(context) => const EditUserProfileScreen(),
         },
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFFF91659)),
@@ -119,7 +123,7 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
     SugerenciasWidget(),
     ContactsScreen(),
     EventList(),
-    //UserProfileScreen(), // Agrega una pantalla de perfil aquí
+    UserProfileScreen(),
   ];
 
   void _onTapItem(int index) {
