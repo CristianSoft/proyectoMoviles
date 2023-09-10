@@ -79,7 +79,7 @@ class _EditUserProfileScreenState extends State<EditUserProfileScreen> {
     late String _selectedFaculty = _userData?['facultad'];
     TextEditingController _nombreUsuarioController = TextEditingController(text: _userData?['nombre'] as String?);
     TextEditingController _descripcionUsuarioController = TextEditingController(text: _userData?['descripcion'] as String?);
-    TextEditingController _edadController = TextEditingController(text: _userData?['edad']);
+    TextEditingController _edadController = TextEditingController(text: _userData?['edad'].toString());
 
     return Scaffold(
       appBar: AppBar(
