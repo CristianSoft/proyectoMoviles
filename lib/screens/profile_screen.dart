@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:proyecto/dtos/person_model.dart';
 import 'package:proyecto/providers/login_provider.dart';
+import 'package:proyecto/providers/person_provider.dart';
 import 'package:proyecto/screens/edit_profile_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:proyecto/screens/login_screen.dart';
+import 'package:proyecto/widgets/image_profile.dart';
 
 class UserProfileScreen extends StatefulWidget {
   static const routeName = '/myprofile';
@@ -16,7 +19,7 @@ class UserProfileScreen extends StatefulWidget {
 }
 
 class _UserProfileScreenState extends State<UserProfileScreen> {
-  final List<String> intereses = ['Leer', 'Cocinar', 'Pelis de Terror','Bailar'];
+  final List<String> intereses = ['Texto 1', 'Texto 2', 'Texto 3','Texto 1', 'Texto 2', 'Texto 3'];
   late List<Widget> containerWidgets;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -93,17 +96,17 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           Padding(
             padding: const EdgeInsets.only(top: 10.0),
             child: Container(
-              width: 150.0,
-              height: 150.0,
-              decoration:  BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: const Color.fromARGB(255, 249, 22, 89),
-                  width: 4.0,),
-                image: const DecorationImage(
-                  image: AssetImage('lib/images/usuarioGenerico.png'),
-                  fit: BoxFit.cover,
+              width: 145,
+              height: 145,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                      color: const Color.fromARGB(255, 249, 22, 89),
+                      width: 2),
+                  borderRadius: BorderRadius.circular(100),
                 ),
+              child: AspectRatio(
+                aspectRatio: 1.0,
+                child: buildProfileImage(context)
               ),
             ),
           ),
@@ -266,6 +269,14 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       
     );
   }
+
+  Widget buildProfileImage(BuildContext context) {
+    Person person = Provider.of<PersonProvider>(context, listen: false)
+        .getPersonById(_auth.currentUser!.uid);
+
+    return ProfileImage(profilePictureUrl: person.imagen.toString());
+  }
+
 }
 
 Widget _buildContainerWithBorder(String text) {
