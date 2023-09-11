@@ -13,12 +13,11 @@ import 'package:proyecto/screens/event_screen.dart';
 import 'package:proyecto/screens/login_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:proyecto/screens/contacts_screen.dart';
-import 'package:proyecto/screens/match_screen.dart';
+import 'package:proyecto/screens/mapEvents_screen.dart';
 import 'package:proyecto/screens/password_reset_screen.dart';
 import 'package:proyecto/screens/profile_screen.dart';
 import 'package:proyecto/screens/signup_screen.dart';
 import 'package:proyecto/screens/sugerencia_screen.dart';
-import 'package:proyecto/widgets/event_list.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'firebase_options.dart';
 
@@ -73,6 +72,7 @@ class MyApp extends StatelessWidget {
           UserProfileScreen.routeName: (context) => const UserProfileScreen(),
           EditUserProfileScreen.routeName: (context) =>const EditUserProfileScreen(),
           SugerenciasWidget.routeName : (context) => SugerenciasWidget(),
+          MapEventsScreen.routeName: (context) => MapEventsScreen()
         },
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFFF91659)),
@@ -163,7 +163,7 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
   final List<Widget> _mainWidgets = const [
     SugerenciasWidget(),
     ContactsScreen(),
-    EventList(),
+    EventScreen(),
     UserProfileScreen(),
   ];
 
