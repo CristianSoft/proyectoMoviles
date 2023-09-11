@@ -106,7 +106,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 ),
               child: AspectRatio(
                 aspectRatio: 1.0,
-                child: buildProfileImage(context)
+                child: FittedBox(
+                  fit: BoxFit.cover,
+                  child: buildProfileImage(context))
               ),
             ),
           ),
