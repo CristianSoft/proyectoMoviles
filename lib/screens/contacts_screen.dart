@@ -105,6 +105,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
               receiverUserEmail: userCorreo,
               receiverUserId: data['uid'],
               receiverUserName: data['nombre'],
+              receiverImage: data['imagen'] ?? '',
             ),
           ),
         );

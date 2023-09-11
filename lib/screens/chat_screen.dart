@@ -16,11 +16,13 @@ class ChatScreen extends StatefulWidget {
   final String receiverUserEmail;
   final String receiverUserId;
   final String receiverUserName;
+  final String receiverImage;
   const ChatScreen(
       {super.key,
       required this.receiverUserEmail,
       required this.receiverUserId,
-      required this.receiverUserName});
+      required this.receiverUserName,
+      required this.receiverImage});
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
@@ -58,9 +60,7 @@ class _ChatScreenState extends State<ChatScreen> {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(right: 20),
-                  child: CircleAvatar(
-                    backgroundImage: AssetImage('assets/profile.jpg'),
-                  ),
+                  child: CircleAvatar(backgroundImage: getProfileImage()),
                 ),
                 Text(
                   widget.receiverUserName,
@@ -214,5 +214,11 @@ class _ChatScreenState extends State<ChatScreen> {
         ],
       ),
     );
+  }
+
+  ImageProvider getProfileImage() {
+    return widget.receiverImage == ''
+        ? const AssetImage('lib/images/usuarioGenerico.png')
+        : NetworkImage(widget.receiverImage) as ImageProvider<Object>;
   }
 }
