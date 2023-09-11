@@ -25,6 +25,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   
   Map<String, dynamic>? _userData;
+  late Person a;
 
   void signOut() {
                   //get auth sevrice
@@ -50,8 +51,11 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
   @override
   void initState() {
-    super.initState();
+     a= Provider.of<PersonProvider>(context, listen: false)
+        .getPersonById(_auth.currentUser!.uid);
     _loadUserData(); 
+    super.initState();
+    
   }
 
   @override
@@ -96,21 +100,19 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           Padding(
             padding: const EdgeInsets.only(top: 10.0),
             child: Container(
-              width: 145,
-              height: 145,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                      color: const Color.fromARGB(255, 249, 22, 89),
-                      width: 2),
-                  borderRadius: BorderRadius.circular(100),
-                ),
-              child: AspectRatio(
-                aspectRatio: 1.0,
-                child: FittedBox(
-                  fit: BoxFit.cover,
-                  child: buildProfileImage(context))
-              ),
-            ),
+                      width: 130,
+                      height: 130,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                            color: const Color.fromARGB(255, 249, 22, 89),
+                            width: 2),
+                        borderRadius: BorderRadius.circular(100),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(100),
+                        child: loadIcon(a.imagen!)
+                      ),
+                    ),
           ),
           //Nombre Usuario
           Padding(
@@ -301,6 +303,23 @@ Widget _buildContainerWithBorder(String text) {
       ),
     );
 }
+
+ Widget loadIcon(String imagen) {
+    print("iamgen es"+imagen);
+    if (imagen == '') {
+      return const Icon(Icons.person, size: 100);
+    } else {
+      return AspectRatio(
+        aspectRatio: 1.0, // Esto mantiene la relación de aspecto 1:1
+        child: FittedBox(
+          fit: BoxFit.cover,
+          child: Image.network(
+            imagen,
+          ),
+        ),
+      );
+    }
+  }
 
 List<Widget> buildContainersWithBorder(List<String> texts) {
   List<Widget> containers = [];
