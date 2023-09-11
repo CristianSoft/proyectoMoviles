@@ -77,30 +77,38 @@ class _ContactsScreenState extends State<ContactsScreen> {
   Widget _buildUserListItem(DocumentSnapshot document) {
     Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
 
-    //display all users except the current
-    if (_auth.currentUser!.email != data['correo']) {
-      return ListTile(
-        leading: const Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Icon(Icons.account_box_rounded),
-        ),
-        title: Text(data['nombre']),
-        onTap: () {
-          //ir al chat seleccionado
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ChatScreen(
-                receiverUserEmail: data['correo'],
-                receiverUserId: data['uid'],
-                receiverUserName: data['nombre'],
-              ),
-            ),
-          );
-        },
-      );
-    } else {
-      return Container();
+    // Check if the document has  'match' field
+    if (!data.containsKey('match')) {
+      return Container(); // Return an empty container if missing required fields
     }
+
+    String userCorreo = data['correo'];
+    List<String> arrayOfMatches = List<String>.from(data['match']);
+
+    // Check if the current user's email is not in the matches list
+    if (!arrayOfMatches.contains(_auth.currentUser!.email)) {
+      return Container(); // Return an empty container if not in matches
+    }
+
+//Return a ListTile with the match information
+    return ListTile(
+      leading: const Padding(
+        padding: EdgeInsets.all(8.0),
+        child: Icon(Icons.account_box_rounded),
+      ),
+      title: Text(data['nombre']),
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ChatScreen(
+              receiverUserEmail: userCorreo,
+              receiverUserId: data['uid'],
+              receiverUserName: data['nombre'],
+            ),
+          ),
+        );
+      },
+    );
   }
 }
