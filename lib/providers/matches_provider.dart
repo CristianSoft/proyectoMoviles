@@ -43,7 +43,7 @@ class MatchesProvider extends ChangeNotifier {
       print('Error al obtener datos: $e');
     }*/
   }
-/*
+  /*
   Future<void> addEmailToMatch(String? email, String usuarioId) async {
     try {
       final userCollection = FirebaseFirestore.instance.collection('persona');
@@ -59,17 +59,15 @@ class MatchesProvider extends ChangeNotifier {
     } catch (e) {
       print('Error al agregar el correo a "match": $e');
     }
-  }
-*/
+  }*/
   Future<void> addEmailToMatch(String? email, String usuarioId) async {
   try {
     final userCollection = FirebaseFirestore.instance.collection('persona');
     final userDoc = await userCollection.doc(usuarioId).get();
-    
     if (userDoc.exists) {
       final List<String> match = List.from(userDoc.data()?['match'] ?? []);
 
-      // Verificar si el correo ya existe en la lista
+      // Verificar si el correo no existe en la lista "match"
       if (!match.contains(email)) {
         // Si no existe, agrégalo a la lista
         match.add(email!);
@@ -88,39 +86,45 @@ class MatchesProvider extends ChangeNotifier {
 }
 
   Future<void> addEmailToLike(String email) async {
-    try {
-      final userCollection = FirebaseFirestore.instance.collection('persona');
-      final userDoc = await userCollection.doc(_auth.currentUser?.uid).get();
-      if (userDoc.exists) {
-        final List<String> like = List.from(userDoc.data()?['like'] ?? []);
+  try {
+    final userCollection = FirebaseFirestore.instance.collection('persona');
+    final userDoc = await userCollection.doc(_auth.currentUser?.uid).get();
+
+    if (userDoc.exists) {
+      final List<String> like = List.from(userDoc.data()?['like'] ?? []);
+      if (!like.contains(email)) {
         like.add(email);
         await userCollection.doc(_auth.currentUser?.uid).update({'like': like});
+      } else {
+        print('El correo ya existe en la lista de "like".');
       }
-      notifyListeners();
-    } catch (e) {
-      print('Error al agregar el correo a "match": $e');
     }
+    notifyListeners();
+  } catch (e) {
+    print('Error al agregar el correo a "like": $e');
   }
+}
 
-  Future<bool> sonMatch(String idPersonaLigueada) async {
-    try {
-      final userCollection = FirebaseFirestore.instance.collection('persona');
-      final userDoc = await userCollection.doc(idPersonaLigueada).get();
-      if (userDoc.exists) {
-        final String correoPersonaLigueada = userDoc.data()?['correo'] ?? '';
-        final userDocActual =
-            await userCollection.doc(_auth.currentUser?.uid).get();
-        final List<String> likes =
-            List.from(userDocActual.data()?['like'] ?? []);
-        if (likes.contains(correoPersonaLigueada)) {
-          //print(idPersonaLigueada);
-          //addEmailToMatch(_auth.currentUser!.email, idPersonaLigueada);
-          return true; 
-        }
+
+Future<bool> sonMatch(String correoPersonaLigueada) async {
+  try {
+    final userCollection = FirebaseFirestore.instance.collection('persona');
+    final userDocActual = await userCollection.doc(_auth.currentUser?.uid).get();
+    final List<String> likesUsuarioActual = List.from(userDocActual.data()?['like'] ?? []);
+    final userDocLigueado = await userCollection.where('correo', isEqualTo: correoPersonaLigueada).get();
+    if (userDocActual.exists && userDocLigueado.docs.isNotEmpty) {
+      final List<String> likesPersonaLigueada = List.from(userDocLigueado.docs[0].data()?['like'] ?? []);
+
+      if (likesUsuarioActual.contains(correoPersonaLigueada) && likesPersonaLigueada.contains(_auth.currentUser?.email)) {
+        print("Si son match");
+        return true;
       }
-    } catch (e) {
-      print('Error en sonMatch: $e');
     }
-    return false; 
+  } catch (e) {
+    print('Error en sonMatch: $e');
   }
+  return false; 
+}
+
+
 }

@@ -88,34 +88,54 @@ class _SugerenciasWidgetState extends State<SugerenciasWidget> {
                     padding: const EdgeInsets.fromLTRB(0, 20, 30, 0),
                     child: ElevatedButton(
                       onPressed: () async {
-                        final personaActual =
-                            Provider.of<PersonProvider>(context, listen: false)
-                                .sugerenciasGetter[i]
-                                .id;
+                        // Obtener el correo de la sugerencia actual, reemplaza "i" con el índice correcto
                         final correoSugerencia =
-                            Provider.of<PersonProvider>(context, listen: false)
+                            await Provider.of<PersonProvider>(context,
+                                    listen: false)
                                 .sugerenciasGetter[i]
                                 .email;
-                        final id =
-                            Provider.of<PersonProvider>(context, listen: false)
-                                .sugerenciasGetter[i]
-                                .id;
+                        final id = await Provider.of<PersonProvider>(context,
+                                listen: false)
+                            .sugerenciasGetter[i]
+                            .id;
+                        // Agregar el correo a la lista de "likes"
                         await Provider.of<MatchesProvider>(context,
                                 listen: false)
                             .addEmailToLike(correoSugerencia);
+
+                        // Imprimir mensajes de depuración
+                        print("//////Aún no son match");
+
+                        // Obtener la lista de "likes"
                         await Provider.of<MatchesProvider>(context,
                                 listen: false)
                             .obtenerLikes();
-                        if (await Provider.of<MatchesProvider>(context,
+                        final esMatch = await Provider.of<MatchesProvider>(
+                                context,
                                 listen: false)
-                            .sonMatch(id)) {
+                            .sonMatch(correoSugerencia);
+                        print("//////Entre si fueron match: $esMatch");
+
+                        // Verificar si hay un match con el correo "a"
+                        if (esMatch) {
+                          print("//////Entre si fueron match");
+
+                          // Agregar el correo a la lista de "match"
                           await Provider.of<MatchesProvider>(context,
                                   listen: false)
-                              .addEmailToMatch(FirebaseAuth.instance.currentUser!.email,personaActual);
-                          //await Provider.of<MatchesProvider>(context,listen: false).addEmailToMatch(correoSugerencia,FirebaseAuth.instance.currentUser!.uid);
+                              .addEmailToMatch(correoSugerencia,
+                                  FirebaseAuth.instance.currentUser!.uid);
+                          await Provider.of<MatchesProvider>(context,
+                                  listen: false)
+                              .addEmailToMatch(
+                                  FirebaseAuth.instance.currentUser!.email, id);
                         }
+
+                        // Llamar a la función siguiente
                         siguiente();
                       },
+                      // Resto de los atributos del ElevatedButton
+
                       style: ElevatedButton.styleFrom(
                           shape: const CircleBorder(),
                           padding: const EdgeInsets.all(20),
