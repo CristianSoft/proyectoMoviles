@@ -23,9 +23,11 @@ class LoginProvider extends ChangeNotifier {
       );
 
       _user = userCredential.user;
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('isLoggedIn', true);
       notifyListeners();
     } catch (e) {
-      print('Error de inicio de sesión: $e');
+      throw ('$e');
     }
   }
 
