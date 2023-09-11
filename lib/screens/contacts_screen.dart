@@ -76,31 +76,45 @@ class _ContactsScreenState extends State<ContactsScreen> {
 
   Widget _buildUserListItem(DocumentSnapshot document) {
     Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
-
-    //display all users except the current
+    //all users except the current
     if (_auth.currentUser!.email != data['correo']) {
-      return ListTile(
-        leading: const Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Icon(Icons.account_box_rounded),
-        ),
-        title: Text(data['nombre']),
-        onTap: () {
-          //ir al chat seleccionado
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ChatScreen(
-                receiverUserEmail: data['correo'],
-                receiverUserId: data['uid'],
-                receiverUserName: data['nombre'],
+      if (data.containsKey('match')) {
+        //lista de matches
+        List<String> arrayOfMatches = List<String>.from(data['match']);
+        for (var element in arrayOfMatches) {
+          //if the mail of the current user appears in someone's else matches list
+          //it is displayed in the chat screen
+          if (element == _auth.currentUser!.email) {
+            return ListTile(
+              leading: const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Icon(Icons.account_box_rounded),
               ),
-            ),
-          );
-        },
-      );
+              title: Text(data['nombre']),
+              onTap: () {
+                //ir al chat seleccionado
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ChatScreen(
+                      receiverUserEmail: data['correo'],
+                      receiverUserId: data['uid'],
+                      receiverUserName: data['nombre'],
+                    ),
+                  ),
+                );
+              },
+            );
+          } else {
+            continue;
+          }
+        }
+      } else {
+        return Container();
+      }
     } else {
       return Container();
     }
+    return Container();
   }
 }
