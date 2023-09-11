@@ -121,15 +121,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                 await authProvider.login(email, password);
                                 Navigator.pushNamed(context, MainWidget.routeName);
                               } catch (e) {
-                                print(
-                                    'Error SCREEN GENERAL de inicio de sesión: $e');
                                 if (e is FirebaseException) {
-                                  print(
-                                      'Error SCREEN PASSWORD de inicio de sesión: $e');
                                   if (e.message!.contains('wrong-password')) {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
-                                        content: Text('Contraseña incorrecta. Verifique su contraseña.'),
+                                        content: Text('Contraseña incorrecta.'),
                                       ),
                                     );
                                   } else {
