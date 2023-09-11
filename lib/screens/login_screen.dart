@@ -119,7 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               }
                               try {
                                 await authProvider.login(email, password);
-                                Navigator.pushNamed(context, MainWidget.routeName);
+                                //Navigator.pushNamed(context, MainWidget.routeName);
                               } catch (e) {
                                 print(
                                     'Error SCREEN GENERAL de inicio de sesión: $e');

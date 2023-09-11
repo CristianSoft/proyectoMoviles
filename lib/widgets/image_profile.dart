@@ -21,7 +21,7 @@ class ProfileImage extends StatelessWidget {
           width: 4.0,
         ),
       ),
-      child: profilePictureUrl != null
+      child: (profilePictureUrl != null || profilePictureUrl == '')
           ? ClipRRect(
               borderRadius: BorderRadius.circular(8),
               child: CachedNetworkImage(
