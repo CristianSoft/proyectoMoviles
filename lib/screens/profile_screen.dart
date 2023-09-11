@@ -19,14 +19,12 @@ class UserProfileScreen extends StatefulWidget {
 }
 
 class _UserProfileScreenState extends State<UserProfileScreen> {
-  final List<String> intereses = ['Texto 1', 'Texto 2', 'Texto 3','Texto 1', 'Texto 2', 'Texto 3'];
+  final List<String> intereses = ['Cocinar', 'Leer', 'Bailar','Cantar', 'Jugar Basquet'];
   late List<Widget> containerWidgets;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   
   Map<String, dynamic>? _userData;
-
-  late Person a;
 
   void signOut() {
                   //get auth sevrice
@@ -49,13 +47,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       print('Error al cargar los datos del usuario: $e');
     }
   }
-  
 
   @override
   void initState() {
-    a= Provider.of<PersonProvider>(context, listen: false)
-        .getPersonById(_auth.currentUser!.uid);
-        print("Foto de perfil edicion"+a.imagen!);
     super.initState();
     _loadUserData(); 
   }
@@ -101,20 +95,22 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           // Foto de perfil
           Padding(
             padding: const EdgeInsets.only(top: 10.0),
-            child:  Container(
-                      width: 145,
-                      height: 145,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                            color: const Color.fromARGB(255, 249, 22, 89),
-                            width: 2),
-                        borderRadius: BorderRadius.circular(100),
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(100),
-                        child: loadIcon(a.imagen!)
-                      ),
-                    ),
+            child: Container(
+              width: 145,
+              height: 145,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                      color: const Color.fromARGB(255, 249, 22, 89),
+                      width: 2),
+                  borderRadius: BorderRadius.circular(100),
+                ),
+              child: AspectRatio(
+                aspectRatio: 1.0,
+                child: FittedBox(
+                  fit: BoxFit.cover,
+                  child: buildProfileImage(context))
+              ),
+            ),
           ),
           //Nombre Usuario
           Padding(
@@ -283,23 +279,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     return ProfileImage(profilePictureUrl: person.imagen.toString());
   }
 
-}
-
-Widget loadIcon(String imagen) {
-  print("iamgen es"+imagen);
-  if (imagen == '') {
-    return const Icon(Icons.person, size: 100);
-  } else {
-    return AspectRatio(
-      aspectRatio: 1.0, // Esto mantiene la relación de aspecto 1:1
-      child: FittedBox(
-        fit: BoxFit.cover,
-        child: Image.network(
-          imagen,
-        ),
-      ),
-    );
-  }
 }
 
 Widget _buildContainerWithBorder(String text) {
