@@ -8,6 +8,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:proyecto/providers/login_provider.dart';
 import 'package:proyecto/providers/person_provider.dart';
+import 'package:proyecto/screens/profile_screen.dart';
 import 'package:proyecto/widgets/image_profile.dart';
 
 class EditUserProfileScreen extends StatefulWidget {
@@ -120,8 +121,8 @@ class _EditUserProfileScreenState extends State<EditUserProfileScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget> [
                 Container(
-                      width: 145,
-                      height: 145,
+                      width: 130,
+                      height: 130,
                       decoration: BoxDecoration(
                         border: Border.all(
                             color: const Color.fromARGB(255, 249, 22, 89),
@@ -153,14 +154,14 @@ class _EditUserProfileScreenState extends State<EditUserProfileScreen> {
           ),
           //Nombre Usuario
           Padding(
-            padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+            padding: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
             child: TextField(
               decoration: const InputDecoration(
                 labelText: 'Nombre de usuario', // Etiqueta del campo
                 border: OutlineInputBorder(), // Borde del campo
               ),
               style: const TextStyle(
-                fontSize: 16.0,
+                fontSize: 12.0,
                 fontWeight: FontWeight.bold,
               ),
               controller: _nombreUsuarioController,
@@ -171,7 +172,7 @@ class _EditUserProfileScreenState extends State<EditUserProfileScreen> {
           ),
           // Información del usuario
           Padding(
-            padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+            padding: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 00.0),
             child: TextField(
               decoration: const InputDecoration(
                 labelText: 'Descripción de usuario', // Etiqueta del campo
@@ -189,7 +190,7 @@ class _EditUserProfileScreenState extends State<EditUserProfileScreen> {
           ),
           //Edad
           Padding(
-            padding: const EdgeInsets.fromLTRB(0.0, 10.0, 20.0, 10.0),
+            padding: const EdgeInsets.fromLTRB(0.0, 0.0, 20.0, 0.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
@@ -280,37 +281,25 @@ class _EditUserProfileScreenState extends State<EditUserProfileScreen> {
               //Primer categoria de intereses
               Wrap(
                 spacing: 16.0, // Espaciado horizontal entre contenedores
-                runSpacing: 16.0, // Espaciado vertical entre filas de contenedores
+                runSpacing: 10.0, // Espaciado vertical entre filas de contenedores
                 //children: containerWidgets,
                 children: buildInterestWidgets(intereses),
               ),
             ]
             ),
           ),
-          // Spacer para empujar la opción de cierre de sesión hacia abajo
-          const Spacer(),
-          // Botón para cerrar sesión
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: ElevatedButton(
-              onPressed: () {
-                print(miIntereses);
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red, // Color de fondo del botón de cierre de sesión
-                padding: const EdgeInsets.all(16.0), // Espaciado interno del botón
-              ),
-              child: const Text(
-                'Guardar Cambios',
-                style: TextStyle(
-                  color: Colors.white, // Color del texto
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pushNamed(context, UserProfileScreen.routeName);
+        },
+        backgroundColor:  const Color.fromARGB(255, 249, 22, 89), // Color de fondo del botón de cierre de sesión
+        child: const Icon(
+          Icons.save, // Icono de guardar cambios
+          color: Colors.white, // Color del icono
+          size: 24.0, // Tamaño del icono
+        ),
       ),
     );
   }
