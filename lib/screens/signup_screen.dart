@@ -119,13 +119,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     const SizedBox(height: 16.0),
                     TextFormField(
                       controller: _ageController,
-                      decoration: const InputDecoration(labelText: 'Edad'),
+                      decoration: const InputDecoration(labelText: 'Edad*'),
                     ),
                     const SizedBox(height: 16.0),
                     TextFormField(
                       controller: _descriptionController,
                       decoration:
-                          const InputDecoration(labelText: 'Descripción'),
+                          const InputDecoration(labelText: 'Descripción*'),
                     ),
                     const SizedBox(height: 16.0),
                     DropdownButtonFormField(
@@ -142,7 +142,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           _selectedGender = value;
                         });
                       },
-                      decoration: const InputDecoration(labelText: 'Género'),
+                      decoration: const InputDecoration(labelText: 'Género*'),
                     ),
                     const SizedBox(height: 16.0),
                     TextFormField(
