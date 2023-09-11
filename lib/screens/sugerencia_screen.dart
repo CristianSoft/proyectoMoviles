@@ -88,6 +88,10 @@ class _SugerenciasWidgetState extends State<SugerenciasWidget> {
                     padding: const EdgeInsets.fromLTRB(0, 20, 30, 0),
                     child: ElevatedButton(
                       onPressed: () async {
+                        final personaActual =
+                            Provider.of<PersonProvider>(context, listen: false)
+                                .sugerenciasGetter[i]
+                                .id;
                         final correoSugerencia =
                             Provider.of<PersonProvider>(context, listen: false)
                                 .sugerenciasGetter[i]
@@ -107,7 +111,8 @@ class _SugerenciasWidgetState extends State<SugerenciasWidget> {
                             .sonMatch(id)) {
                           await Provider.of<MatchesProvider>(context,
                                   listen: false)
-                              .addEmailToMatch(correoSugerencia);
+                              .addEmailToMatch(FirebaseAuth.instance.currentUser!.email,personaActual);
+                          //await Provider.of<MatchesProvider>(context,listen: false).addEmailToMatch(correoSugerencia,FirebaseAuth.instance.currentUser!.uid);
                         }
                         siguiente();
                       },

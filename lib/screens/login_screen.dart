@@ -116,7 +116,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                 // Guarda el estado de inicio de sesión en SharedPreferences
                                 final prefs = await SharedPreferences.getInstance();
                                 await prefs.setBool('isLoggedIn', true);
-
                                 Navigator.pushNamed(context, MainWidget.routeName);
                               } catch (e) {
                                 if (e is FirebaseException) {
