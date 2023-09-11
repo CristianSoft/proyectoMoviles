@@ -13,6 +13,7 @@ import 'package:proyecto/screens/event_screen.dart';
 import 'package:proyecto/screens/login_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:proyecto/screens/contacts_screen.dart';
+import 'package:proyecto/screens/match_screen.dart';
 import 'package:proyecto/screens/password_reset_screen.dart';
 import 'package:proyecto/screens/profile_screen.dart';
 import 'package:proyecto/screens/signup_screen.dart';
@@ -70,8 +71,9 @@ class MyApp extends StatelessWidget {
           ContactsScreen.routeName: (context) => const ContactsScreen(),
           EventScreen.routeName: (context) => EventScreen(),
           UserProfileScreen.routeName: (context) => const UserProfileScreen(),
-          EditUserProfileScreen.routeName: (context) =>
-              const EditUserProfileScreen(),
+          EditUserProfileScreen.routeName: (context) =>const EditUserProfileScreen(),
+          MatchWidget.routeName:(context) => const MatchWidget(nombreMatch: "", imageUrl1: "", imageUrl2: ""),
+          SugerenciasWidget.routeName : (context) => SugerenciasWidget()
         },
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFFF91659)),

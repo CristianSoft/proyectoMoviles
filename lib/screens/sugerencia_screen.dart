@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:proyecto/providers/matches_provider.dart';
 import 'package:proyecto/providers/login_provider.dart';
 import 'package:proyecto/providers/person_provider.dart';
+import 'package:proyecto/screens/match_screen.dart';
 import 'package:proyecto/widgets/caja_usuario.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -129,6 +130,11 @@ class _SugerenciasWidgetState extends State<SugerenciasWidget> {
                                   listen: false)
                               .addEmailToMatch(
                                   FirebaseAuth.instance.currentUser!.email, id);
+                                  String nombreMAtch = Provider.of<PersonProvider>(context, listen: false)
+                        .sugerenciasGetter[i].name;
+                        String imagen =  Provider.of<PersonProvider>(context, listen: false)
+                        .sugerenciasGetter[i].imagen.toString();
+                                  Navigator.pushNamed(context, MatchWidget.routeName,arguments: MatchWidget(nombreMatch: nombreMAtch, imageUrl1: imagen, imageUrl2: ""));
                         }
 
                         // Llamar a la función siguiente
