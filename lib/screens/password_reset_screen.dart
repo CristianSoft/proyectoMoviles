@@ -50,8 +50,7 @@ class PasswordResetScreen extends StatelessWidget {
                       final passwordResetProvider =
                           Provider.of<PasswordResetProvider>(context, listen: false);
                       if (!passwordResetProvider.validateEmail(email)) {
-                        // El correo electrónico no es válido, puedes mostrar un mensaje de error o deshabilitar el botón.
-                        print('Correo electrónico no válido');
+                        _errorMessage = 'Correo electrónico no válido';
                       }
                     },
                     decoration: const InputDecoration(
@@ -89,7 +88,6 @@ class PasswordResetScreen extends StatelessWidget {
                               backgroundColor: Colors.red,
                             ),
                           );
-                          print(resetError);
                         }
                       },
                       child: const Padding(

@@ -8,15 +8,14 @@ class SignUpProvider extends ChangeNotifier {
   Future<void> signUp(Person person) async {
     try {
       if (!isValidEpnEmail(person.email)) {
-        print('Correo electrónico no válido para @epn.edu.ec');
-        return; // Salir de la función si el correo no es válido
+        throw('Correo electrónico no válido para @epn.edu.ec');
       }
       await _auth.createUserWithEmailAndPassword(
         email: person.email,
         password: person.password,
       );
     } catch (e) {
-      print(e);
+      throw(e);
     }
   }
 
