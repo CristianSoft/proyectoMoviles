@@ -7,7 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class MatchesProvider extends ChangeNotifier {
   List<dynamic> misMatches = [];
-  UnmodifiableListView<dynamic> get sugerenciasGetter =>
+  UnmodifiableListView<dynamic> get misMatchesGetter =>
       UnmodifiableListView(misMatches);
   List<dynamic> misLikes = [];
   final FirebaseAuth _auth = FirebaseAuth.instance;
