@@ -16,7 +16,7 @@ class UserProfileScreen extends StatefulWidget {
 }
 
 class _UserProfileScreenState extends State<UserProfileScreen> {
-  final List<String> intereses = ['Texto 1', 'Texto 2', 'Texto 3','Texto 1', 'Texto 2', 'Texto 3'];
+  final List<String> intereses = ['Leer', 'Cocinar', 'Pelis de Terror','Bailar'];
   late List<Widget> containerWidgets;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
