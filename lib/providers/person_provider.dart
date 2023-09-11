@@ -53,6 +53,8 @@ class PersonProvider extends ChangeNotifier {
     }
   }
 
+  
+
   Future<void> initPersonList() async {
     final querySnapShot =
         await FirebaseFirestore.instance.collection('persona').get();
@@ -76,6 +78,8 @@ class PersonProvider extends ChangeNotifier {
     print("Estoy en person");
     notifyListeners();
   }
+
+
 
   Future<void> initSugerenciasList() async {
     

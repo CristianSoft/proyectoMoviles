@@ -20,7 +20,8 @@ class SugerenciasWidget extends StatefulWidget {
 class _SugerenciasWidgetState extends State<SugerenciasWidget> {
   int i = 0;
   String? nombreMatch;
-  String? imagen;
+  String? imagen1;
+  String? imagen2;
 
   @override
   void initState() {
@@ -58,6 +59,7 @@ class _SugerenciasWidgetState extends State<SugerenciasWidget> {
 
     final correoSugerencia = sugerenciasProvider.sugerenciasGetter[i].email;
     final id = sugerenciasProvider.sugerenciasGetter[i].id;
+    final FirebaseAuth _auth = FirebaseAuth.instance;
 
     try {
       await matchesProvider.addEmailToLike(correoSugerencia);
@@ -77,9 +79,10 @@ class _SugerenciasWidgetState extends State<SugerenciasWidget> {
 
         setState(() {
           nombreMatch = sugerenciasProvider.sugerenciasGetter[i].name;
-          imagen = sugerenciasProvider.sugerenciasGetter[i].imagen.toString();
+          imagen1 = sugerenciasProvider.sugerenciasGetter[i].imagen;
+          imagen2 = sugerenciasProvider.getPersonById(_auth.currentUser!.uid).imagen;
           print("nombreMatch: $nombreMatch");
-          print("imagen: $imagen");
+          print("imagen: $imagen1");
         });
 
         Navigator.push(
@@ -87,14 +90,14 @@ class _SugerenciasWidgetState extends State<SugerenciasWidget> {
           MaterialPageRoute(
             builder: (context) => MatchWidget(
               nombreMatch: nombreMatch!,
-              imageUrl1: imagen!,
-              imageUrl2: "",
+              imageUrl1: imagen1!,
+              imageUrl2: imagen2!,
             ),
           ),
         );
 
         print("nombreMatch: $nombreMatch");
-        print("imagen: $imagen");
+        print("imagen: $imagen1");
       }
       siguiente();
     } catch (e) {
