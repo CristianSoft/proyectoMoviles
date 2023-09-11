@@ -43,6 +43,8 @@ class _EditUserProfileScreenState extends State<EditUserProfileScreen> {
 
   Map<String, dynamic>? _userData;
 
+  late Person a;
+
   void signOut() {
                   //get auth sevrice
                   final authService = Provider.of<LoginProvider>(context, listen: false);
@@ -67,6 +69,8 @@ class _EditUserProfileScreenState extends State<EditUserProfileScreen> {
 
   @override
   void initState() {
+     a= Provider.of<PersonProvider>(context, listen: false)
+        .getPersonById(_auth.currentUser!.uid);
     super.initState();
     _loadUserData(); 
   }
@@ -116,19 +120,19 @@ class _EditUserProfileScreenState extends State<EditUserProfileScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget> [
                 Container(
-                  width: 150.0,
-                  height: 150.0,
-                  decoration:  BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: const Color.fromARGB(255, 249, 22, 89),
-                      width: 4.0,),
-                    image: const DecorationImage(
-                      image: AssetImage('lib/images/usuarioGenerico.png'),
-                      fit: BoxFit.cover,
+                      width: 145,
+                      height: 145,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                            color: const Color.fromARGB(255, 249, 22, 89),
+                            width: 2),
+                        borderRadius: BorderRadius.circular(100),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(100),
+                        child: loadIcon(a.imagen!)
+                      ),
                     ),
-                  ),
-                ),
                 const SizedBox(width: 10.0), // Espacio entre el texto y el botón
                 ElevatedButton(
                   onPressed: () {
@@ -309,6 +313,23 @@ class _EditUserProfileScreenState extends State<EditUserProfileScreen> {
         ],
       ),
     );
+  }
+
+  Widget loadIcon(String imagen) {
+    print("iamgen es"+imagen);
+    if (imagen == '') {
+      return const Icon(Icons.person, size: 100);
+    } else {
+      return AspectRatio(
+        aspectRatio: 1.0, // Esto mantiene la relación de aspecto 1:1
+        child: FittedBox(
+          fit: BoxFit.cover,
+          child: Image.network(
+            imagen,
+          ),
+        ),
+      );
+    }
   }
 
   Widget buildProfileImage(BuildContext context) {
