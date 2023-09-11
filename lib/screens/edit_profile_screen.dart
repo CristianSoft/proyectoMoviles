@@ -106,10 +106,7 @@ class _EditUserProfileScreenState extends State<EditUserProfileScreen> {
           ],
         ),
       ),
-      body: Expanded(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
-          child: Column(
+      body: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 // Foto de perfil
@@ -323,8 +320,6 @@ class _EditUserProfileScreenState extends State<EditUserProfileScreen> {
                 ),
               ],
             ),
-          ),
-        ),
       );
   }
 
