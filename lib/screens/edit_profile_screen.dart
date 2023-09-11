@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:proyecto/dtos/person_model.dart';
+import 'package:proyecto/main.dart';
 import 'package:proyecto/providers/edit_profile_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -215,7 +216,7 @@ class _EditUserProfileScreenState extends State<EditUserProfileScreen> {
                 ),
                 Expanded(
                   child: FractionallySizedBox(
-                    widthFactor: 0.9,
+                    widthFactor: 1.1,
                     child: DropdownButtonFormField<String>(
                       value: _selectedGender,
                       items: ['Femenino', 'Masculino', 'Otro']
@@ -236,6 +237,7 @@ class _EditUserProfileScreenState extends State<EditUserProfileScreen> {
                     ),
                   ),
                 ),// Espacio entre los TextField
+                //SizedBox(width: 1,),
                 Expanded(
                   child: FractionallySizedBox(
                     widthFactor: 0.9,
@@ -292,7 +294,7 @@ class _EditUserProfileScreenState extends State<EditUserProfileScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushNamed(context, UserProfileScreen.routeName);
+          Navigator.pushNamed(context, MainWidget.routeName);
         },
         backgroundColor:  const Color.fromARGB(255, 249, 22, 89), // Color de fondo del botón de cierre de sesión
         child: const Icon(
