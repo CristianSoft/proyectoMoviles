@@ -154,7 +154,7 @@ class _EditUserProfileScreenState extends State<EditUserProfileScreen> {
           ),
           //Nombre Usuario
           Padding(
-            padding: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
+            padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
             child: TextField(
               decoration: const InputDecoration(
                 labelText: 'Nombre de usuario', // Etiqueta del campo
@@ -172,7 +172,7 @@ class _EditUserProfileScreenState extends State<EditUserProfileScreen> {
           ),
           // Información del usuario
           Padding(
-            padding: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 00.0),
+            padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
             child: TextField(
               decoration: const InputDecoration(
                 labelText: 'Descripción de usuario', // Etiqueta del campo
@@ -190,7 +190,7 @@ class _EditUserProfileScreenState extends State<EditUserProfileScreen> {
           ),
           //Edad
           Padding(
-            padding: const EdgeInsets.fromLTRB(0.0, 0.0, 20.0, 0.0),
+            padding: const EdgeInsets.fromLTRB(0.0, 10.0, 20.0, 10.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
@@ -266,7 +266,7 @@ class _EditUserProfileScreenState extends State<EditUserProfileScreen> {
             child: Column(
               children: <Widget>[
               const Padding(
-                padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 10.0), // Aplicar espaciado solo hacia abajo
+                padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0), // Aplicar espaciado solo hacia abajo
                 child: Align(
                   alignment: Alignment.centerLeft, // Alinear el texto a la izquierda
                   child: Text(
