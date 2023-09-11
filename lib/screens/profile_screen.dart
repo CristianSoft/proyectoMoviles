@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:proyecto/providers/login_provider.dart';
-import 'package:proyecto/providers/person_provider.dart';
 import 'package:proyecto/screens/edit_profile_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -17,7 +16,7 @@ class UserProfileScreen extends StatefulWidget {
 }
 
 class _UserProfileScreenState extends State<UserProfileScreen> {
-  final List<String> intereses = ['Texto 1', 'Texto 2', 'Texto 3','Texto 1', 'Texto 2', 'Texto 3'];
+  final List<String> intereses = ['Leer', 'Cocinar', 'Pelis de Terror','Bailar'];
   late List<Widget> containerWidgets;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -63,12 +62,28 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Perfil de Usuario', 
-        style: TextStyle(
-        color: Colors.white,
-        fontSize: 15, 
-        fontWeight: FontWeight.normal)),
-        backgroundColor: const Color.fromARGB(255, 249, 22, 89),
+        automaticallyImplyLeading: false,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(0),
+              child: Image.asset('lib/images/LogoPolimatchSmall.png'),
+            ),
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                'Mi perfil',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w900,
+                  color: Color(0xFFF91659),
+                ),
+              ),
+            )
+          ],
+        ),
       ),
 
       body: Column(

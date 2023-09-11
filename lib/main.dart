@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:proyecto/providers/chat_provider.dart';
+import 'package:proyecto/providers/edit_profile_provider.dart';
 import 'package:proyecto/providers/event_provider.dart';
 import 'package:proyecto/providers/login_provider.dart';
 import 'package:proyecto/providers/matches_provider.dart';
@@ -12,11 +13,13 @@ import 'package:proyecto/screens/event_screen.dart';
 import 'package:proyecto/screens/login_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:proyecto/screens/contacts_screen.dart';
+import 'package:proyecto/screens/match_screen.dart';
 import 'package:proyecto/screens/password_reset_screen.dart';
 import 'package:proyecto/screens/profile_screen.dart';
 import 'package:proyecto/screens/signup_screen.dart';
 import 'package:proyecto/screens/sugerencia_screen.dart';
 import 'package:proyecto/widgets/event_list.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -24,11 +27,17 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+
+  final prefs = await SharedPreferences.getInstance();
+  final isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
+
+  runApp(MyApp(isLoggedIn: isLoggedIn));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final bool isLoggedIn;
+
+  const MyApp({Key? key, required this.isLoggedIn}) : super(key: key);
 
   // This widget is the root of your application.
   @override
@@ -40,13 +49,20 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => PersonProvider()),
         ChangeNotifierProvider(create: (context) => PasswordResetProvider()),
         ChangeNotifierProvider(create: (context) => ChatProvider()),
-        ChangeNotifierProvider(create: (context) => EventProvider(),),
-        ChangeNotifierProvider(create: (context) => MatchesProvider(),),
+        ChangeNotifierProvider(
+          create: (context) => EditProfileProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => EventProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => MatchesProvider(),
+        ),
       ],
       child: MaterialApp(
         title: 'PoliMatch',
         //home: new MainWidget(),
-        initialRoute: LoginScreen.routeName,
+        initialRoute: isLoggedIn ? MainWidget.routeName : LoginScreen.routeName,
         routes: {
           MainWidget.routeName: (context) => const MainWidget(),
           LoginScreen.routeName: (context) => LoginScreen(),
@@ -55,7 +71,9 @@ class MyApp extends StatelessWidget {
           ContactsScreen.routeName: (context) => const ContactsScreen(),
           EventScreen.routeName: (context) => EventScreen(),
           UserProfileScreen.routeName: (context) => const UserProfileScreen(),
-          EditUserProfileScreen.routeName:(context) => const EditUserProfileScreen(),
+          EditUserProfileScreen.routeName: (context) =>const EditUserProfileScreen(),
+          MatchWidget.routeName:(context) => const MatchWidget(nombreMatch: "", imageUrl1: "", imageUrl2: ""),
+          SugerenciasWidget.routeName : (context) => SugerenciasWidget()
         },
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFFF91659)),
@@ -63,7 +81,8 @@ class MyApp extends StatelessWidget {
           elevatedButtonTheme: ElevatedButtonThemeData(
             style: ElevatedButton.styleFrom(
               foregroundColor: const Color(0xFFFFFFFF),
-              backgroundColor:const Color(0xFFF91659), // Color del texto del botón (blanco)
+              backgroundColor:
+                  const Color(0xFFF91659), // Color del texto del botón (blanco)
             ),
           ),
           textButtonTheme: TextButtonThemeData(
@@ -98,11 +117,32 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MainWidget extends StatelessWidget {
+class MainWidget extends StatefulWidget {
   static const routeName = '/';
 
   const MainWidget({super.key});
 
+  @override
+  State<MainWidget> createState() => _MainWidgetState();
+}
+
+class _MainWidgetState extends State<MainWidget> {
+  Future<void> checkLoginStatus() async {
+    final prefs = await SharedPreferences.getInstance();
+    final isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
+
+    if (!isLoggedIn) {
+      // El usuario no ha iniciado sesión previamente, dirigirlo a la pantalla de inicio de sesión
+      Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+    }
+  }
+
+  @override
+  void initState() {
+    checkLoginStatus();
+    super.initState();
+  }
+  
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
@@ -177,4 +217,3 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
     );
   }
 }
-

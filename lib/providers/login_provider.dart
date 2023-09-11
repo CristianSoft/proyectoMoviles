@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginProvider extends ChangeNotifier {
   User? _user;
@@ -15,7 +16,8 @@ class LoginProvider extends ChangeNotifier {
         return; // Salir de la función si el correo no es válido
       }
 
-      UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+      UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
@@ -31,6 +33,8 @@ class LoginProvider extends ChangeNotifier {
   Future<void> logout() async {
     await FirebaseAuth.instance.signOut();
     _user = null;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isLoggedIn', false);
     notifyListeners();
   }
 
