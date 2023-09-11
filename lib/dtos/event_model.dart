@@ -4,13 +4,17 @@ class Event {
   String imageUrl;
   String date;
   String description;
+  double latitude;
+  double longitude;
 
   Event(
       {required this.id,
       required this.eventName,
       required this.imageUrl,
       required this.date,
-      required this.description});
+      required this.description,
+      required this.latitude,
+      required this.longitude});
 
   factory Event.fromJson(Map<String, dynamic> json) {
     return Event(
@@ -18,7 +22,9 @@ class Event {
         eventName: json['eventName'],
         imageUrl: json['sprites']['imageUrl'],
         date: json['date'],
-        description: json['description']);
+        description: json['description'],
+        latitude: json['latitude'],
+        longitude: json['longitude']);
   }
 
   factory Event.fromFirebaseJson(Map<String, dynamic> json) => Event(
@@ -26,7 +32,9 @@ class Event {
       eventName: json['eventName'],
       imageUrl: json['imageUrl'],
       date: json['date'],
-      description: json['description']);
+      description: json['description'],
+      latitude: json['latitude'],
+      longitude: json['longitude']);
 
   Map<String, Object> toJson() => {
         'id': id,
@@ -34,5 +42,7 @@ class Event {
         'imageUrl': imageUrl,
         'date': date,
         'description': description,
+        'latitude': latitude,
+        'longitude': longitude,
       };
 }

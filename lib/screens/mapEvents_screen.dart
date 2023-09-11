@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/event_provider.dart';
 
 class MapEventsScreen extends StatefulWidget {
   static const routeName = '/map';
@@ -22,13 +25,43 @@ class _MapEventsScreenState extends State<MapEventsScreen> {
   void initState() {
     super.initState();
     markers.add(const Marker(
-        markerId: MarkerId('1'), 
-        position: LatLng(-0.181031, -78.484054),
-        icon: BitmapDescriptor.defaultMarker,
-        infoWindow: InfoWindow(
-          title: 'Evento 1',
-          snippet: 'Este es el evento 1',
-        ),
+      markerId: MarkerId('0'),
+      position: LatLng(-0.211645, -78.489151),
+      icon: BitmapDescriptor.defaultMarker,
+      infoWindow: InfoWindow(
+        title: 'PoliFest',
+        snippet: 'Septimebre 8',
+      ),
+    ));
+
+    markers.add(const Marker(
+      markerId: MarkerId('1'),
+      position: LatLng(-0.202107, -78.492755),
+      icon: BitmapDescriptor.defaultMarker,
+      infoWindow: InfoWindow(
+        title: 'TropicalFest',
+        snippet: 'Septiembre 9',
+      ),
+    ));
+
+    markers.add(const Marker(
+      markerId: MarkerId('2'),
+      position: LatLng(-0.21231, -78.490309),
+      icon: BitmapDescriptor.defaultMarker,
+      infoWindow: InfoWindow(
+        title: 'Poli 10k',
+        snippet: 'Septiembre 22',
+      ),
+    ));
+
+    markers.add(const Marker(
+      markerId: MarkerId('3'),
+      position: LatLng(-0.209338, -78.487037),
+      icon: BitmapDescriptor.defaultMarker,
+      infoWindow: InfoWindow(
+        title: 'Yincana EPN',
+        snippet: 'Septiembre 29',
+      ),
     ));
   }
 
