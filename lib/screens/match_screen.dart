@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:proyecto/screens/contacts_screen.dart';
-import 'package:proyecto/screens/sugerencia_screen.dart';
+import 'package:proyecto/main.dart';
 
 class MatchWidget extends StatefulWidget {
   static const routeName = '/match';
@@ -89,23 +88,7 @@ class _MatchWidgetState extends State<MatchWidget> {
                   width: 250,
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, ContactsScreen.routeName);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.white, backgroundColor: Colors.pink, // Color del texto blanco
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.circular(25.0), // Bordes redondeados
-                      ),
-                    ),
-                    child:const Text('Enviar mensaje',style: TextStyle(fontSize: 20),),
-                  ),
-                ),
-                Container(
-                  width: 250,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, SugerenciasWidget.routeName);
+                      Navigator.pushNamed(context, MainWidget.routeName);
                     },
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white, backgroundColor: Colors.transparent,
