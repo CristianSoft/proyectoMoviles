@@ -109,8 +109,7 @@ class _EditUserProfileScreenState extends State<EditUserProfileScreen> {
       body: Expanded(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
-          child: SingleChildScrollView(
-            child: Column(
+          child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 // Foto de perfil
@@ -119,7 +118,12 @@ class _EditUserProfileScreenState extends State<EditUserProfileScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      buildProfileImage(context),
+                      AspectRatio(
+                        aspectRatio: 1.0,
+                        child: FittedBox(
+                          fit: BoxFit.cover,
+                          child: buildProfileImage(context))
+                      ),
                       const SizedBox(
                           width: 10.0), // Espacio entre el texto y el botón
                       ElevatedButton(
@@ -321,8 +325,7 @@ class _EditUserProfileScreenState extends State<EditUserProfileScreen> {
             ),
           ),
         ),
-      ),
-    );
+      );
   }
 
   Widget buildProfileImage(BuildContext context) {
