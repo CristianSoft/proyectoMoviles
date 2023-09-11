@@ -19,7 +19,9 @@ class SugerenciasWidget extends StatefulWidget {
 
 class _SugerenciasWidgetState extends State<SugerenciasWidget> {
   int i = 0;
-
+  String nombreMatch="";
+  String imagen="";  
+  
   @override
   void initState() {
     Provider.of<PersonProvider>(context, listen: false).initPersonList();
@@ -122,6 +124,7 @@ class _SugerenciasWidgetState extends State<SugerenciasWidget> {
                           print("//////Entre si fueron match");
 
                           // Agregar el correo a la lista de "match"
+                          // ignore: use_build_context_synchronously
                           await Provider.of<MatchesProvider>(context,
                                   listen: false)
                               .addEmailToMatch(correoSugerencia,
@@ -130,17 +133,30 @@ class _SugerenciasWidgetState extends State<SugerenciasWidget> {
                                   listen: false)
                               .addEmailToMatch(
                                   FirebaseAuth.instance.currentUser!.email, id);
-                                  String nombreMAtch = Provider.of<PersonProvider>(context, listen: false)
-                        .sugerenciasGetter[i].name;
-                        String imagen =  Provider.of<PersonProvider>(context, listen: false)
-                        .sugerenciasGetter[i].imagen.toString();
-                                  Navigator.pushNamed(context, MatchWidget.routeName,arguments: MatchWidget(nombreMatch: nombreMAtch, imageUrl1: imagen, imageUrl2: ""));
+                         
+                          // ignore: use_build_context_synchronously
+                         
+                             setState(() {
+                               nombreMatch = Provider.of<PersonProvider>(
+                                  context,
+                                  listen: false)
+                              .sugerenciasGetter[i]
+                              .name;
+                          print(nombreMatch);
+                          imagen = Provider.of<PersonProvider>(context,
+                                  listen: false)
+                              .sugerenciasGetter[i]
+                              .imagen
+                              .toString();
+                             });
+                            Navigator.pushNamed(context, MatchWidget.routeName,arguments: MatchWidget(nombreMatch: nombreMatch, imageUrl1: imagen, imageUrl2: "a"));
+                          
+                          
                         }
 
                         // Llamar a la función siguiente
                         siguiente();
                       },
-                      // Resto de los atributos del ElevatedButton
 
                       style: ElevatedButton.styleFrom(
                           shape: const CircleBorder(),
