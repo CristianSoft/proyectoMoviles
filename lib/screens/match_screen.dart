@@ -1,15 +1,27 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:proyecto/screens/contacts_screen.dart';
+import 'package:proyecto/screens/sugerencia_screen.dart';
 
 class MatchWidget extends StatefulWidget {
   static const routeName = '/match';
-  const MatchWidget({super.key});
+  final String nombreMatch;
+  final String imageUrl1;
+  final String imageUrl2;
+
+  const MatchWidget({
+    Key? key,
+    required this.nombreMatch,
+    required this.imageUrl1,
+    required this.imageUrl2,
+  }) : super(key: key);
 
   @override
   State<MatchWidget> createState() => _MatchWidgetState();
 }
 
 class _MatchWidgetState extends State<MatchWidget> {
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -29,11 +41,11 @@ class _MatchWidgetState extends State<MatchWidget> {
                           fontSize: 40,
                           fontWeight: FontWeight.bold),
                     )),
-                const Padding(
-                    padding: EdgeInsets.fromLTRB(0,5,0,100),
+                Padding(
+                    padding: const EdgeInsets.fromLTRB(0,5,0,100),
                     child: Text(
-                      "Tu y Juan hicieron match",
-                      style: TextStyle(
+                      "Tu y ${widget.nombreMatch} hicieron match",
+                      style: const TextStyle(
                           color: Colors.white,
                           fontSize: 18,
                           ),
@@ -52,13 +64,10 @@ class _MatchWidgetState extends State<MatchWidget> {
                       ),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(100),
-                        child: Image.network(
-                          "https://scontent.fuio5-1.fna.fbcdn.net/v/t31.18172-8/22861746_1480120132057569_5859221830910884783_o.jpg?_nc_cat=107&ccb=1-7&_nc_sid=09cbfe&_nc_eui2=AeHKRdO7cUXDcW0n8TZ1Iv8jjntIhFT2XUGOe0iEVPZdQdm5F5xfCWCHB0s-Htyr0UtmiNCK7PZ8YGeO4hdwIf6-&_nc_ohc=_N02MM4EoNwAX9ib3lf&_nc_ht=scontent.fuio5-1.fna&oh=00_AfAOfqi4MGE_eolLEFQd122rg5KvRSRBdGItbWD9_WtU_Q&oe=6517AC28",
-                          fit: BoxFit.cover,
-                        ),
+                        child: loadIcon(widget.imageUrl1)
                       ),
                     ),
-                    SizedBox(width: 20),
+                    const SizedBox(width: 20),
                     Container(
                       width: 145,
                       height: 145,
@@ -70,58 +79,69 @@ class _MatchWidgetState extends State<MatchWidget> {
                       ),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(100),
-                        child: Image.network(
-                          "https://scontent.fuio5-1.fna.fbcdn.net/v/t31.18172-8/22861746_1480120132057569_5859221830910884783_o.jpg?_nc_cat=107&ccb=1-7&_nc_sid=09cbfe&_nc_eui2=AeHKRdO7cUXDcW0n8TZ1Iv8jjntIhFT2XUGOe0iEVPZdQdm5F5xfCWCHB0s-Htyr0UtmiNCK7PZ8YGeO4hdwIf6-&_nc_ohc=_N02MM4EoNwAX9ib3lf&_nc_ht=scontent.fuio5-1.fna&oh=00_AfAOfqi4MGE_eolLEFQd122rg5KvRSRBdGItbWD9_WtU_Q&oe=6517AC28",
-                          fit: BoxFit.cover,
-                        ),
+                        child: loadIcon(widget.imageUrl2)
                       ),
                     ),
                   ],
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Container(
                   width: 250,
                   child: ElevatedButton(
                     onPressed: () {
-                      // Acción cuando se presiona el botón
+                      Navigator.pushNamed(context, ContactsScreen.routeName);
                     },
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.pink, // Color de fondo rosa
-                      onPrimary: Colors.white, // Color del texto blanco
+                      foregroundColor: Colors.white, backgroundColor: Colors.pink, // Color del texto blanco
                       shape: RoundedRectangleBorder(
                         borderRadius:
                             BorderRadius.circular(25.0), // Bordes redondeados
                       ),
                     ),
-                    child: Text('Enviar mensaje',style: TextStyle(fontSize: 20),),
+                    child:const Text('Enviar mensaje',style: TextStyle(fontSize: 20),),
                   ),
                 ),
                 Container(
                   width: 250,
                   child: ElevatedButton(
                     onPressed: () {
-                      // Acción cuando se presiona el botón
+                      Navigator.pushNamed(context, SugerenciasWidget.routeName);
                     },
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.transparent, // Fondo transparente
-                      onPrimary: Colors.white,
+                      foregroundColor: Colors.white, backgroundColor: Colors.transparent,
                       shape: RoundedRectangleBorder(
                         borderRadius:
                             BorderRadius.circular(25.0), // Bordes redondeados
                       ),
                        // Color del texto blanco
-                      side: BorderSide(
+                      side: const BorderSide(
                         color: Colors.pink, // Borde de color rosa
                         width: 2.0,
                         // Ancho del borde
                       ),
                     ),
-                    child: Text('Seguir deslizando',style: TextStyle(fontSize: 20)),
+                    child: const Text('Seguir deslizando',style: TextStyle(fontSize: 20)),
                   ),
                 ),
               ],
             ),
           )),
+    );
+  }
+}
+
+Widget loadIcon(String imagen) {
+  if (imagen == '') {
+    return const Icon(Icons.person, size: 300);
+  } else {
+    return AspectRatio(
+      aspectRatio: 1.0, // Esto mantiene la relación de aspecto 1:1
+      child: FittedBox(
+        fit: BoxFit.cover,
+        child: Image.network(
+          imagen,
+        ),
+      ),
     );
   }
 }
