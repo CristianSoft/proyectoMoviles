@@ -35,11 +35,10 @@ class _EditUserProfileScreenState extends State<EditUserProfileScreen> {
     'Pintar',
   ];
 
-
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  
+
   late List<Widget> containerWidgets;
   late List<String> miIntereses = [];
 
@@ -48,11 +47,10 @@ class _EditUserProfileScreenState extends State<EditUserProfileScreen> {
   late Person a;
 
   void signOut() {
-                  //get auth sevrice
-                  final authService = Provider.of<LoginProvider>(context, listen: false);
-                  authService.logout();
-                 
-                }
+    //get auth sevrice
+    final authService = Provider.of<LoginProvider>(context, listen: false);
+    authService.logout();
+  }
 
   Future<void> _loadUserData() async {
     try {
@@ -71,21 +69,22 @@ class _EditUserProfileScreenState extends State<EditUserProfileScreen> {
 
   @override
   void initState() {
-     a= Provider.of<PersonProvider>(context, listen: false)
+    a = Provider.of<PersonProvider>(context, listen: false)
         .getPersonById(_auth.currentUser!.uid);
     super.initState();
-    _loadUserData(); 
+    _loadUserData();
   }
 
-  
   @override
   Widget build(BuildContext context) {
-    
     late String _selectedGender = _userData?['genero'];
     late String _selectedFaculty = _userData?['facultad'];
-    TextEditingController _nombreUsuarioController = TextEditingController(text: _userData?['nombre'] as String?);
-    TextEditingController _descripcionUsuarioController = TextEditingController(text: _userData?['descripcion'] as String?);
-    TextEditingController _edadController = TextEditingController(text: _userData?['edad'].toString());
+    TextEditingController _nombreUsuarioController =
+        TextEditingController(text: _userData?['nombre'] as String?);
+    TextEditingController _descripcionUsuarioController =
+        TextEditingController(text: _userData?['descripcion'] as String?);
+    TextEditingController _edadController =
+        TextEditingController(text: _userData?['edad'].toString());
 
     return Scaffold(
       appBar: AppBar(
@@ -120,30 +119,48 @@ class _EditUserProfileScreenState extends State<EditUserProfileScreen> {
             padding: const EdgeInsets.only(top: 10.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget> [
+              children: <Widget>[
                 Container(
-                      width: 130,
-                      height: 130,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                            color: const Color.fromARGB(255, 249, 22, 89),
-                            width: 2),
-                        borderRadius: BorderRadius.circular(100),
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(100),
-                        child: loadIcon(a.imagen!)
-                      ),
-                    ),
-                const SizedBox(width: 10.0), // Espacio entre el texto y el botón
+                  width: 130,
+                  height: 130,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                        color: const Color.fromARGB(255, 249, 22, 89),
+                        width: 2),
+                    borderRadius: BorderRadius.circular(100),
+                  ),
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(100),
+                      child: loadIcon(a.imagen!)),
+                ),
+                const SizedBox(
+                    width: 10.0), // Espacio entre el texto y el botón
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     // Escoger foto desde la galeria
+                    final ImagePicker picker = ImagePicker();
+                    // Pick an image
+                    final XFile? image = await picker.pickImage(
+                        source: ImageSource.gallery, imageQuality: 70);
+                    //subir la foto
+                    setState(() {
+                      if (image != null) {
+                        Provider.of<EditProfileProvider>(context, listen: false)
+                            .uploadProfilePicture(
+                          File(image.path),
+                          _firebaseAuth.currentUser!.uid,
+                        );
+                      } else {
+                        print('No image selected.');
+                      }
+                    });
                   },
                   style: ElevatedButton.styleFrom(
-                    shape: const CircleBorder(), 
-                    backgroundColor: const Color.fromARGB(255, 249, 22, 89), // Color de fondo del botón
-                    padding: const EdgeInsets.all(16.0), // Espaciado interno del botón
+                    shape: const CircleBorder(),
+                    backgroundColor: const Color.fromARGB(
+                        255, 249, 22, 89), // Color de fondo del botón
+                    padding: const EdgeInsets.all(
+                        16.0), // Espaciado interno del botón
                   ),
                   child: const Icon(
                     Icons.upload, // Icono del botón (puedes cambiarlo)
@@ -155,40 +172,38 @@ class _EditUserProfileScreenState extends State<EditUserProfileScreen> {
           ),
           //Nombre Usuario
           Padding(
-            padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-            child: TextField(
-              decoration: const InputDecoration(
-                labelText: 'Nombre de usuario', // Etiqueta del campo
-                border: OutlineInputBorder(), // Borde del campo
-              ),
-              style: const TextStyle(
-                fontSize: 12.0,
-                fontWeight: FontWeight.bold,
-              ),
-              controller: _nombreUsuarioController,
-              onChanged: (newValue) {
-                _nombreUsuarioController.text = newValue;
-              },
-            )
-          ),
+              padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+              child: TextField(
+                decoration: const InputDecoration(
+                  labelText: 'Nombre de usuario', // Etiqueta del campo
+                  border: OutlineInputBorder(), // Borde del campo
+                ),
+                style: const TextStyle(
+                  fontSize: 12.0,
+                  fontWeight: FontWeight.bold,
+                ),
+                controller: _nombreUsuarioController,
+                onChanged: (newValue) {
+                  _nombreUsuarioController.text = newValue;
+                },
+              )),
           // Información del usuario
           Padding(
-            padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-            child: TextField(
-              decoration: const InputDecoration(
-                labelText: 'Descripción de usuario', // Etiqueta del campo
-                border: OutlineInputBorder(), // Borde del campo
-              ),
-              style: const TextStyle(
-                fontSize: 12.0,
-                fontWeight: FontWeight.bold,
-              ),
-              controller: _descripcionUsuarioController,
-              onChanged: (newValue) {
-                _descripcionUsuarioController.text = newValue;
-              },
-            )
-          ),
+              padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+              child: TextField(
+                decoration: const InputDecoration(
+                  labelText: 'Descripción de usuario', // Etiqueta del campo
+                  border: OutlineInputBorder(), // Borde del campo
+                ),
+                style: const TextStyle(
+                  fontSize: 12.0,
+                  fontWeight: FontWeight.bold,
+                ),
+                controller: _descripcionUsuarioController,
+                onChanged: (newValue) {
+                  _descripcionUsuarioController.text = newValue;
+                },
+              )),
           //Edad
           Padding(
             padding: const EdgeInsets.fromLTRB(0.0, 10.0, 20.0, 10.0),
@@ -236,7 +251,7 @@ class _EditUserProfileScreenState extends State<EditUserProfileScreen> {
                       ),
                     ),
                   ),
-                ),// Espacio entre los TextField
+                ), // Espacio entre los TextField
                 //SizedBox(width: 1,),
                 Expanded(
                   child: FractionallySizedBox(
@@ -265,12 +280,13 @@ class _EditUserProfileScreenState extends State<EditUserProfileScreen> {
           //Intereses
           Container(
             padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: <Widget>[
+            child: Column(children: <Widget>[
               const Padding(
-                padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0), // Aplicar espaciado solo hacia abajo
+                padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0,
+                    10.0), // Aplicar espaciado solo hacia abajo
                 child: Align(
-                  alignment: Alignment.centerLeft, // Alinear el texto a la izquierda
+                  alignment:
+                      Alignment.centerLeft, // Alinear el texto a la izquierda
                   child: Text(
                     'Intereses',
                     style: TextStyle(
@@ -283,12 +299,12 @@ class _EditUserProfileScreenState extends State<EditUserProfileScreen> {
               //Primer categoria de intereses
               Wrap(
                 spacing: 16.0, // Espaciado horizontal entre contenedores
-                runSpacing: 10.0, // Espaciado vertical entre filas de contenedores
+                runSpacing:
+                    10.0, // Espaciado vertical entre filas de contenedores
                 //children: containerWidgets,
                 children: buildInterestWidgets(intereses),
               ),
-            ]
-            ),
+            ]),
           ),
         ],
       ),
@@ -296,7 +312,8 @@ class _EditUserProfileScreenState extends State<EditUserProfileScreen> {
         onPressed: () {
           Navigator.pushNamed(context, MainWidget.routeName);
         },
-        backgroundColor:  const Color.fromARGB(255, 249, 22, 89), // Color de fondo del botón de cierre de sesión
+        backgroundColor: const Color.fromARGB(
+            255, 249, 22, 89), // Color de fondo del botón de cierre de sesión
         child: const Icon(
           Icons.save, // Icono de guardar cambios
           color: Colors.white, // Color del icono
@@ -307,7 +324,7 @@ class _EditUserProfileScreenState extends State<EditUserProfileScreen> {
   }
 
   Widget loadIcon(String imagen) {
-    print("iamgen es"+imagen);
+    print("iamgen es" + imagen);
     if (imagen == '') {
       return const Icon(Icons.person, size: 100);
     } else {
