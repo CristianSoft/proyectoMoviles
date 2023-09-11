@@ -72,8 +72,7 @@ class MyApp extends StatelessWidget {
           EventScreen.routeName: (context) => EventScreen(),
           UserProfileScreen.routeName: (context) => const UserProfileScreen(),
           EditUserProfileScreen.routeName: (context) =>const EditUserProfileScreen(),
-          MatchWidget.routeName:(context) => const MatchWidget(nombreMatch: "", imageUrl1: "", imageUrl2: ""),
-          SugerenciasWidget.routeName : (context) => SugerenciasWidget()
+          SugerenciasWidget.routeName : (context) => SugerenciasWidget(),
         },
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFFF91659)),

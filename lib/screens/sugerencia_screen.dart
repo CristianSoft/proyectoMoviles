@@ -19,16 +19,21 @@ class SugerenciasWidget extends StatefulWidget {
 
 class _SugerenciasWidgetState extends State<SugerenciasWidget> {
   int i = 0;
-  String nombreMatch="";
-  String imagen="";  
-  
+  String? nombreMatch;
+  String? imagen;
+
   @override
   void initState() {
-    Provider.of<PersonProvider>(context, listen: false).initPersonList();
-    Provider.of<PersonProvider>(context, listen: false).initSugerenciasList();
-    Provider.of<MatchesProvider>(context, listen: false).obtenerLikes();
-    Provider.of<MatchesProvider>(context, listen: false).obtenerMatches();
+    _initializeData();
     super.initState();
+  }
+
+  Future<void> _initializeData() async {
+    await Provider.of<PersonProvider>(context, listen: false).initPersonList();
+    await Provider.of<PersonProvider>(context, listen: false)
+        .initSugerenciasList();
+    await Provider.of<MatchesProvider>(context, listen: false).obtenerLikes();
+    await Provider.of<MatchesProvider>(context, listen: false).obtenerMatches();
   }
 
   void siguiente() {
@@ -43,6 +48,59 @@ class _SugerenciasWidgetState extends State<SugerenciasWidget> {
         i = 0;
       }
     });
+  }
+
+  Future<void> _handleLike() async {
+    final sugerenciasProvider =
+        Provider.of<PersonProvider>(context, listen: false);
+    final matchesProvider =
+        Provider.of<MatchesProvider>(context, listen: false);
+
+    final correoSugerencia = sugerenciasProvider.sugerenciasGetter[i].email;
+    final id = sugerenciasProvider.sugerenciasGetter[i].id;
+
+    try {
+      await matchesProvider.addEmailToLike(correoSugerencia);
+      await matchesProvider.obtenerLikes();
+
+      final esMatch = await matchesProvider.sonMatch(correoSugerencia);
+
+      if (esMatch) {
+        await matchesProvider.addEmailToMatch(
+          correoSugerencia,
+          FirebaseAuth.instance.currentUser!.uid,
+        );
+        await matchesProvider.addEmailToMatch(
+          FirebaseAuth.instance.currentUser!.email,
+          id,
+        );
+
+        setState(() {
+          nombreMatch = sugerenciasProvider.sugerenciasGetter[i].name;
+          imagen = sugerenciasProvider.sugerenciasGetter[i].imagen.toString();
+          print("nombreMatch: $nombreMatch");
+          print("imagen: $imagen");
+        });
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => MatchWidget(
+              nombreMatch: nombreMatch!,
+              imageUrl1: imagen!,
+              imageUrl2: "",
+            ),
+          ),
+        );
+
+        print("nombreMatch: $nombreMatch");
+        print("imagen: $imagen");
+      }
+      siguiente();
+    } catch (e) {
+      // Manejar errores adecuadamente, como mostrar un mensaje al usuario
+      print("Error al manejar el 'Me gusta': $e");
+    }
   }
 
   @override
@@ -90,74 +148,7 @@ class _SugerenciasWidgetState extends State<SugerenciasWidget> {
                 Padding(
                     padding: const EdgeInsets.fromLTRB(0, 20, 30, 0),
                     child: ElevatedButton(
-                      onPressed: () async {
-                        // Obtener el correo de la sugerencia actual, reemplaza "i" con el índice correcto
-                        final correoSugerencia =
-                            await Provider.of<PersonProvider>(context,
-                                    listen: false)
-                                .sugerenciasGetter[i]
-                                .email;
-                        final id = await Provider.of<PersonProvider>(context,
-                                listen: false)
-                            .sugerenciasGetter[i]
-                            .id;
-                        // Agregar el correo a la lista de "likes"
-                        await Provider.of<MatchesProvider>(context,
-                                listen: false)
-                            .addEmailToLike(correoSugerencia);
-
-                        // Imprimir mensajes de depuración
-                        print("//////Aún no son match");
-
-                        // Obtener la lista de "likes"
-                        await Provider.of<MatchesProvider>(context,
-                                listen: false)
-                            .obtenerLikes();
-                        final esMatch = await Provider.of<MatchesProvider>(
-                                context,
-                                listen: false)
-                            .sonMatch(correoSugerencia);
-                        print("//////Entre si fueron match: $esMatch");
-
-                        // Verificar si hay un match con el correo "a"
-                        if (esMatch) {
-                          print("//////Entre si fueron match");
-
-                          // Agregar el correo a la lista de "match"
-                          // ignore: use_build_context_synchronously
-                          await Provider.of<MatchesProvider>(context,
-                                  listen: false)
-                              .addEmailToMatch(correoSugerencia,
-                                  FirebaseAuth.instance.currentUser!.uid);
-                          await Provider.of<MatchesProvider>(context,
-                                  listen: false)
-                              .addEmailToMatch(
-                                  FirebaseAuth.instance.currentUser!.email, id);
-                         
-                          // ignore: use_build_context_synchronously
-                         
-                             setState(() {
-                               nombreMatch = Provider.of<PersonProvider>(
-                                  context,
-                                  listen: false)
-                              .sugerenciasGetter[i]
-                              .name;
-                          print(nombreMatch);
-                          imagen = Provider.of<PersonProvider>(context,
-                                  listen: false)
-                              .sugerenciasGetter[i]
-                              .imagen
-                              .toString();
-                             });
-                            Navigator.pushNamed(context, MatchWidget.routeName,arguments: MatchWidget(nombreMatch: nombreMatch, imageUrl1: imagen, imageUrl2: "a"));
-                          
-                          
-                        }
-
-                        // Llamar a la función siguiente
-                        siguiente();
-                      },
-
+                      onPressed: _handleLike,
                       style: ElevatedButton.styleFrom(
                           shape: const CircleBorder(),
                           padding: const EdgeInsets.all(20),
