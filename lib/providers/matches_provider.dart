@@ -20,7 +20,6 @@ class MatchesProvider extends ChangeNotifier {
           .get();
 
       misMatches = querySnapshot.docs.map((doc) => doc['match']).toList();
-      print(misMatches[1]);
       notifyListeners();
     } catch (e) {
       print('Error al obtener datos: $e');
@@ -35,8 +34,6 @@ class MatchesProvider extends ChangeNotifier {
         .get();
 
     misLikes = querySnapshot.docs.map((doc) => doc['like']).toList();
-    print("///////////// aqui estan los likes");
-    print(misLikes[0].toString());
     notifyListeners();
     /* } catch (e) {
       // Manejo de errores, por ejemplo, imprimir el error

@@ -93,8 +93,6 @@ class PersonProvider extends ChangeNotifier {
         }else{
           genero="Femenino";
         }
-    
-    print("///////////////genero"+ genero);
 
     final querySnapShot = await FirebaseFirestore.instance
         .collection('persona')
