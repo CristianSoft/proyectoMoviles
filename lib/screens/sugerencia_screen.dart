@@ -136,15 +136,28 @@ class _SugerenciasWidgetState extends State<SugerenciasWidget> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            FutureBuilder(
-              future: Provider.of<PersonProvider>(context, listen: false)
-                  .initSugerenciasList(),
-              builder: (context, snapshot) {
-                return CajaWidget(
-                    usuario: Provider.of<PersonProvider>(context, listen: false)
-                        .sugerenciasGetter[i]);
-              },
-            ),
+           FutureBuilder(
+  future: Provider.of<PersonProvider>(context, listen: false)
+      .initSugerenciasList(),
+  builder: (context, snapshot) {
+    if (snapshot.connectionState == ConnectionState.done) {
+      if (snapshot.hasError) {
+        // Manejar el error aquí
+        return Text('Error: ${snapshot.error}');
+      } else {
+        // Continuar con la construcción de tu widget
+        return CajaWidget(
+          usuario: Provider.of<PersonProvider>(context, listen: false)
+              .sugerenciasGetter[i],
+        );
+      }
+    } else {
+      // Muestra un indicador de carga mientras se obtiene el futuro
+      return CircularProgressIndicator();
+    }
+  },
+)
+,
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:proyecto/dtos/person_model.dart';
 import 'package:proyecto/providers/login_provider.dart';
 import 'package:proyecto/providers/person_provider.dart';
-import 'package:proyecto/screens/edit_profile_screen.dart';
+//import 'package:proyecto/screens/edit_profile_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -131,7 +131,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 ElevatedButton(
                   onPressed: () {
                     // Acción al presionar el botón
-                    Navigator.pushNamed(context, EditUserProfileScreen.routeName);
+                    //Navigator.pushNamed(context, EditUserProfileScreen.routeName);
                   },
                   style: ElevatedButton.styleFrom(
                     shape: const CircleBorder(), 

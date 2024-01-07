@@ -8,7 +8,7 @@ import 'package:proyecto/providers/matches_provider.dart';
 import 'package:proyecto/providers/password_reset_provider.dart';
 import 'package:proyecto/providers/person_provider.dart';
 import 'package:proyecto/providers/signup_provider.dart';
-import 'package:proyecto/screens/edit_profile_screen.dart';
+//import 'package:proyecto/screens/edit_profile_screen.dart';
 import 'package:proyecto/screens/event_screen.dart';
 import 'package:proyecto/screens/login_screen.dart';
 import 'package:provider/provider.dart';
@@ -70,7 +70,7 @@ class MyApp extends StatelessWidget {
           ContactsScreen.routeName: (context) => const ContactsScreen(),
           EventScreen.routeName: (context) => EventScreen(),
           UserProfileScreen.routeName: (context) => const UserProfileScreen(),
-          EditUserProfileScreen.routeName: (context) =>const EditUserProfileScreen(),
+          //EditUserProfileScreen.routeName: (context) =>const EditUserProfileScreen(),
           SugerenciasWidget.routeName : (context) => SugerenciasWidget(),
           MapEventsScreen.routeName: (context) => MapEventsScreen()
         },

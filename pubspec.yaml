@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.0.3 <4.0.0'
+  sdk: '>=3.2.0 <4.0.0'
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -35,7 +35,7 @@ dependencies:
   sqflite: ^2.2.8+4
   path: ^1.8.3
   flutter_slidable: ^3.0.0
-  http: ^1.1.0
+  http: ^1.1.2
   firebase_core: ^2.15.0
   cloud_firestore: ^4.9.1
   firebase_authentication: ^0.0.2

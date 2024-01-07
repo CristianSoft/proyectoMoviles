@@ -12,21 +12,28 @@ class CajaWidget extends StatefulWidget {
 }
 
 class _CajaWidgetState extends State<CajaWidget> {
- Widget loadIcon(String imagen) {
+Widget loadIcon(String imagen) {
   if (imagen == '') {
     return const Icon(Icons.person, size: 300);
   } else {
     return AspectRatio(
-      aspectRatio: 1.0, // Esto mantiene la relación de aspecto 1:1
+      aspectRatio: 1.0,
       child: FittedBox(
         fit: BoxFit.cover,
         child: Image.network(
           imagen,
+          errorBuilder: (context, error, stackTrace) {
+            print("Error al cargar la imagen: $error");
+            // Puedes devolver un widget de error o hacer algo más según tus necesidades
+            return const Icon(Icons.error, size: 300);
+          },
         ),
       ),
     );
   }
 }
+
+
 
 
   @override
